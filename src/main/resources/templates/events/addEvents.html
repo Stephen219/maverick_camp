@@ -1,0 +1,108 @@
+
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Event</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/><script src="https://cdn.tiny.cloud/1/hqj6dtj0bdk0jmh26699fsiv40o59prbqo6dssnkbf7qon4b/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <link rel="stylesheet" href="https://cdn.tiny.cloud/1/hqj6dtj0bdk0jmh26699fsiv40o59prbqo6dssnkbf7qon4b/tinymce/6/skins/ui/oxide/skin.min.css" />
+</head>
+<body class="bg-gray-100 p-8">
+<div th:replace="fragment :: header"></div>
+<div class=" bg-white  max-w-[950px] w-3/4 mx-auto rounded shadow p-6 pt-3 mt-3">
+    <h2 class="text-2xl font-bold mb-6">Add Event</h2>
+
+    <form th:action="@{/add_event}" th:object="${event}" method="post">
+        <input type="hidden" th:field="*{id}"/>
+        <input type="hidden" th:field="*{createdAt}"/>
+
+
+        <div class="mb-4">
+            <label for="name" class="block text-sm font-medium text-gray-600">Title:</label>
+            <input type="text" id="name" name="name" th:field="*{title}" class="mt-1 p-2 w-full border rounded" required/>
+            <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}"
+                 class="text-red-500"></div>
+        </div>
+        <div class="mb-4">
+            <label for="name" class="block text-sm font-medium text-gray-600">Title:</label>
+            <label for="image"></label><input type="text" id="image" name="name" th:field="*{image}" class="mt-1 p-2 w-full border rounded" required/>
+            <div th:if="${#fields.hasErrors('image')}" th:errors="*{image}"
+                 class="text-red-500"></div>
+        </div>
+
+
+        <div class="mb-4">
+            <label for="date" class="block text-sm font-medium text-gray-600">Start Date:</label>
+            <input type="datetime-local" id="date" name="date" th:field="*{startDateTime}" class="mt-1 p-2 w-full border rounded" required/>
+            <div th:if="${#fields.hasErrors('startDateTime')}" th:errors="*{startDateTime}"
+                 class="text-red-500"></div>
+
+        </div>
+        <div class="mb-4">
+            <label for="enddate" class="block text-sm font-medium text-gray-600">End Date:</label>
+            <input type="datetime-local" id="enddate" name="date" th:field="*{endDateTime}" class="mt-1 p-2 w-full border rounded" required/>
+            <div th:if="${#fields.hasErrors('endDateTime')}" th:errors="*{endDateTime}"
+                 class="text-red-500"></div>
+
+        </div>
+
+
+        <div class="mb-4">
+            <label for="requirements" class="block text-sm font-medium text-gray-600">Requirements (separated by commas):</label>
+            <input type="text" id="requirements" name="requirements" th:field="*{description}" class="mt-1 p-2 w-full border rounded" required/>
+
+            <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
+                 class="text-red-500"></div>
+
+        </div>
+
+        <div class="mb-4">
+            <label for="cost" class="block text-sm font-medium text-gray-600">Cost:</label>
+            <input type="text" id="cost" name="cost" th:field="*{cost}" class="mt-1 p-2 w-full border rounded" required/>
+            <div th:if="${#fields.hasErrors('cost')}" th:errors="*{cost}"
+                 class="text-red-500"></div>
+
+        </div>
+
+        <div class="mb-4">
+            <label for="location" class="block text-sm font-medium text-gray-600">Location:</label>
+            <input type="text" id="location" name="location" th:field="*{location}" class="mt-1 p-2 w-full border rounded" required/>
+
+            <div th:if="${#fields.hasErrors('location')}" th:errors="*{location}"
+                 class="text-red-500"></div>
+
+        </div>
+        <div class="mb-4">
+            <label for="content" class="block text-gray-700 font-bold mb-2">Content:</label>
+            <textarea id="content" name="content" th:field="*{itinerary}" class=" bg-white bg-opacity-80 block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></textarea>
+
+            <div th:if="${#fields.hasErrors('itinerary')}" th:errors="*{itinerary}"
+                 class="text-red-500"></div>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                tinymce.init({
+                    selector: 'textarea',
+                    plugins: 'ai tinycomments mentions anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed permanentpen footnotes advtemplate advtable advcode editimage tableofcontents mergetags powerpaste tinymcespellchecker autocorrect a11ychecker typography inlinecss',
+                    toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | align lineheight | tinycomments | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+                    tinycomments_mode: 'embedded',
+                    tinycomments_author: 'Author name',
+                    mergetags_list: [
+                        { value: 'First.Name', title: 'First Name' },
+                        { value: 'Email', title: 'Email' },
+                    ],
+                    ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
+                });
+            });
+        </script>
+
+
+        <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Add Event</button>
+    </form>
+</div>
+</body>
+</html>

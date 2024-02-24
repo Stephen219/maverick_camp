@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        Maverick Camp, Rondavels and Homestay
+
+    </title>
+
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+    <style>
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap');
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        header{
+            z-index: 999;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 200px;
+            transition: 0.5s ease;
+        }
+
+        header .brand{
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-decoration: none;
+        }
+
+        header .brand:hover{
+            color: #09a6d4;
+        }
+
+        header .navigation{
+            position: relative;
+        }
+
+        header .navigation .navigation-items a{
+            position: relative;
+            color: #fff;
+            font-size: 1em;
+            font-weight: 500;
+            text-decoration: none;
+            margin-left: 30px;
+            transition: 0.3s ease;
+        }
+
+        header .navigation .navigation-items a:before{
+            content: '';
+            position: absolute;
+            background: #fff;
+            width: 0;
+            height: 3px;
+            bottom: 0;
+            left: 0;
+            transition: 0.3s ease;
+        }
+
+        header .navigation .navigation-items a:hover:before{
+            width: 100%;
+            background: #09a6d4;
+        }
+
+        section{
+            padding: 100px 200px;
+        }
+
+        .home {
+            position: relative;
+            width: 100%;
+            /*min-height: 100vh;*/
+            min-height: 75vh;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            background: rgba(0, 140, 255, 0.959);
+        }
+
+        .home:before{
+            z-index: 777;
+            content: '';
+            position: absolute;
+            background: rgba(251, 3, 3, 0.034);
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .home .content{
+            z-index: 888;
+            color: #fff;
+            width: 70%;
+            margin-top: 50px;
+            display: none;
+        }
+
+        .home .content.active{
+            display: block;
+        }
+
+        .home .content h1{
+            font-size: 4em;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            line-height: 75px;
+            margin-bottom: 40px;
+        }
+
+        .home .content h1 span{
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        .home .content p{
+            margin-bottom: 65px;
+        }
+
+        .home .content a{
+            background: #fff;
+            padding: 15px 35px;
+            color: #09a6d4;
+            font-size: 1.1em;
+            font-weight: 500;
+            text-decoration: none;
+            border-radius: 2px;
+        }
+
+        .home .content a:hover{
+            background: #09a6d4;
+            color: #fff;
+        }
+
+        .home .media-icons{
+            z-index: 888;
+            position: absolute;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            transition: 0.5s ease;
+        }
+
+        .home .media-icons a{
+            color: #fff;
+            font-size: 1.6em;
+            transition: 0.3s ease;
+        }
+
+        .home .media-icons a:not(:last-child){
+            margin-bottom: 20px;
+        }
+
+        .home .media-icons a:hover{
+            transform: scale(1.3);
+            color: #09a6d4;
+        }
+
+        .home img{
+            z-index: 000;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slider-navigation{
+            z-index: 888;
+            position: absolute;
+            display: flex;
+           left: 80%;
+            justify-content: center;
+            align-items: center;
+            transform: translateY(80px);
+            margin-bottom: 12px;
+        }
+
+        .slider-navigation .nav-btn{
+            width: 12px;
+            height: 12px;
+            background: #fff;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
+            transition: 0.3s ease;
+        }
+
+        .slider-navigation .nav-btn.active{
+            background: #09a6d4;
+        }
+
+        .slider-navigation .nav-btn:not(:last-child){
+            margin-right: 20px;
+        }
+
+        .slider-navigation .nav-btn:hover{
+            transform: scale(1.2);
+        }
+
+        .img-slide{
+            position: absolute;
+            width: 100%;
+            clip-path: circle(0% at 0 50%);
+        }
+
+
+
+        .navbar-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            overflow-y: auto;
+            z-index: 1000; /* Adjust the z-index as needed */
+        }
+
+        .navbar-backdrop {
+            position: fixed;
+            inset: 0;
+            z-index: 999; /* Should be higher than .navbar-menu's z-index */
+        }
+
+
+
+
+
+
+
+
+
+
+        .img-slide.active{
+            clip-path: circle(150% at 0 50%);
+            transition: 2s ease;
+            transition-property: clip-path;
+        }
+
+        @media (max-width: 1040px){
+            header{
+                padding: 12px 20px;
+            }
+            section{
+                padding: 100px 20px;
+            }
+            .home .media-icons{
+                right: 15px;
+            }
+            header .navigation{
+                display: none;
+            }
+            header .navigation.active{
+                position: fixed;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: rgba(1, 1, 1, 0.5);
+            }
+
+            header .navigation .navigation-items a{
+                color: #222;
+                font-size: 1.2em;
+                margin: 20px;
+            }
+            header .navigation .navigation-items a:before{
+                background: #222;
+                height: 5px;
+            }
+            header .navigation .navigation-items{
+                background: #fff;
+                width: 600px;
+                max-width: 600px;
+                margin: 20px;
+                padding: 40px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                border-radius: 5px;
+                box-shadow: 0 5px 25px rgb(1 1 1 / 20%);
+            }
+
+        }
+
+        @media (max-width: 560px){
+            .home .content h1{
+                font-size: 3em;
+                line-height: 60px;
+            }
+        }
+
+    </style>
+</head>
+<body class="w-full">
+
+<nav class="relative px-4 py-4 flex justify-between space-x-2 bg-yellow-300">
+    <a class="text-3xl font-bold leading-none" href="#">
+        <p class="text-lg"> Maverick Camp, Rondavels and Homestay</p>
+    </a>
+    <div class="lg:hidden">
+        <button class="navbar-burger flex items-center text-blue-600 p-3">
+            <svg class="block h-4 w-4 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <title>Mobile menu</title>
+                <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
+            </svg>
+        </button>
+    </div>
+    <ul class="hidden lg:flex lg:mx-auto lg:w-auto lg:space-x-6 pl-5 relative font-bold text-black hover:text-blue-600">
+        <li><a class="text-md " href="/">Home</a></li>
+        <li><a class="text-md text-black" href="/about_us">About Us</a></li>
+        <li><a class="text-md text-black hover:text-gray-500" href="/events">Events</a></li>
+        <li><a class="text-md text-black hover:text-gray-500" href="/contact">Contact</a></li>
+        <li><a class="text-md text-black hover:text-gray-500" href="/rooms">Accommodation</a></li>
+        <li><a class="text-md text-black hover:text-gray-500" href="/gallery">Gallery</a></li>
+        <li><a class="text-md text-black hover:text-gray-500" href="/all_blogs">Blog</a></li>
+    </ul>
+    <a class="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold  rounded-xl transition duration-200" href="/book">Book Now</a>
+
+</nav>
+<div class="navbar-menu relative z-50 hidden ">
+    <div class="navbar-backdrop fixed inset-0 bg-yellow-400 opacity-25"></div>
+    <nav class="fixed top-0 left-0 bottom-0 flex flex-col w-5/6 max-w-sm py-6 px-6 bg-white border-r overflow-y-auto">
+        <div class="flex items-center mb-8">
+            <a class="mr-auto text-3xl font-bold leading-none" href="/">
+                <p class="text-lg"> Maverick Camp, Rondavels and Homestay</p>
+            </a>
+            <button class="navbar-close">
+                <svg class="h-6 w-6 text-gray-400 cursor-pointer hover:text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        <div>
+            <ul>
+                <li class="mb-1">
+                    <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded" href="/">Home</a>
+                </li>
+                <li class="mb-1">
+                    <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded" href="/about_us">About Us</a>
+                </li>
+                <li class="mb-1">
+                    <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded" href="/events">Events</a>
+                </li>
+                <li class="mb-1">
+                    <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded" href="/rooms">Accommodation</a>
+                </li>
+                <li class="mb-1">
+                    <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded" href="/contact">Contact</a>
+                </li>
+                <li class="mb-1">
+                    <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded" href="/gallery">Gallery</a>
+                </li>
+                <li class="mb-1">
+                    <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded" href="/blog">Blog</a>
+                </li>
+            </ul>
+        </div>
+        <div class="flex items-center justify-between">
+            <p class="text-sm text-gray-500">
+                © Copyright <span id="Year"></span> Maverick camp and Rondavels.
+            </p>
+
+            <script>
+                document.getElementById("Year").textContent = new Date().getFullYear().toString();
+            </script>
+
+
+            <div class="flex -mx-2 items-baseline">
+                <a href="#" class="mx-2 text-gray-600 transition-colors duration-300 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400" aria-label="x">
+                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="27" height="20" viewBox="0 0 24 24">
+                        <path d="M 2.3671875 3 L 9.4628906 13.140625 L 2.7402344 21 L 5.3808594 21 L 10.644531 14.830078 L 14.960938 21 L 21.871094 21 L 14.449219 10.375 L 20.740234 3 L 18.140625 3 L 13.271484 8.6875 L 9.2988281 3 L 2.3671875 3 z M 6.2070312 5 L 8.2558594 5 L 18.033203 19 L 16.001953 19 L 6.2070312 5 z"></path>
+                    </svg>
+                </a>
+
+                <a href="#" class="mx-2 text-gray-600 transition-colors duration-300 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400" aria-label="Facebook">
+                    <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" fill="none"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path
+                                d="M2.00195 12.002C2.00312 16.9214 5.58036 21.1101 10.439 21.881V14.892H7.90195V12.002H10.442V9.80204C10.3284 8.75958 10.6845 7.72064 11.4136 6.96698C12.1427 6.21332 13.1693 5.82306 14.215 5.90204C14.9655 5.91417 15.7141 5.98101 16.455 6.10205V8.56104H15.191C14.7558 8.50405 14.3183 8.64777 14.0017 8.95171C13.6851 9.25566 13.5237 9.68693 13.563 10.124V12.002H16.334L15.891 14.893H13.563V21.881C18.8174 21.0506 22.502 16.2518 21.9475 10.9611C21.3929 5.67041 16.7932 1.73997 11.4808 2.01722C6.16831 2.29447 2.0028 6.68235 2.00195 12.002Z">
+                        </path>
+                    </svg>
+                </a>
+
+                <a href="#" class="mx-2 text-gray-600 transition-colors duration-300 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400" aria-label="instergram">
+                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="28" height="21" viewBox="0 0 48 48">
+                        <radialGradient id="yOrnnhliCrdS2gy~4tD8ma_Xy10Jcu1L2Su_gr1" cx="19.38" cy="42.035" r="44.899" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fd5"></stop><stop offset=".328" stop-color="#ff543f"></stop><stop offset=".348" stop-color="#fc5245"></stop><stop offset=".504" stop-color="#e64771"></stop><stop offset=".643" stop-color="#d53e91"></stop><stop offset=".761" stop-color="#cc39a4"></stop><stop offset=".841" stop-color="#c837ab"></stop></radialGradient><path fill="url(#yOrnnhliCrdS2gy~4tD8ma_Xy10Jcu1L2Su_gr1)" d="M34.017,41.99l-20,0.019c-4.4,0.004-8.003-3.592-8.008-7.992l-0.019-20	c-0.004-4.4,3.592-8.003,7.992-8.008l20-0.019c4.4-0.004,8.003,3.592,8.008,7.992l0.019,20	C42.014,38.383,38.417,41.986,34.017,41.99z"></path><radialGradient id="yOrnnhliCrdS2gy~4tD8mb_Xy10Jcu1L2Su_gr2" cx="11.786" cy="5.54" r="29.813" gradientTransform="matrix(1 0 0 .6663 0 1.849)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#4168c9"></stop><stop offset=".999" stop-color="#4168c9" stop-opacity="0"></stop></radialGradient><path fill="url(#yOrnnhliCrdS2gy~4tD8mb_Xy10Jcu1L2Su_gr2)" d="M34.017,41.99l-20,0.019c-4.4,0.004-8.003-3.592-8.008-7.992l-0.019-20	c-0.004-4.4,3.592-8.003,7.992-8.008l20-0.019c4.4-0.004,8.003,3.592,8.008,7.992l0.019,20	C42.014,38.383,38.417,41.986,34.017,41.99z"></path><path fill="#fff" d="M24,31c-3.859,0-7-3.14-7-7s3.141-7,7-7s7,3.14,7,7S27.859,31,24,31z M24,19c-2.757,0-5,2.243-5,5	s2.243,5,5,5s5-2.243,5-5S26.757,19,24,19z"></path><circle cx="31.5" cy="16.5" r="1.5" fill="#fff"></circle><path fill="#fff" d="M30,37H18c-3.859,0-7-3.14-7-7V18c0-3.86,3.141-7,7-7h12c3.859,0,7,3.14,7,7v12	C37,33.86,33.859,37,30,37z M18,13c-2.757,0-5,2.243-5,5v12c0,2.757,2.243,5,5,5h12c2.757,0,5-2.243,5-5V18c0-2.757-2.243-5-5-5H18z"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </nav>
+</div>
+<section class="home">
+    <img decoding="async" class="img-slide active"
+         src= "/images/food1.png" />
+    <img decoding="async" class="img-slide"
+         src="/images/house1.png"/>
+    <img decoding="async" class="img-slide"
+         src="/images/enviroment1.png"  alt=""/>
+    <img class="img-slide"
+         src="/images/hiking1.png"/>
+    <img decoding="async" class="img-slide"
+         src="/images/camping.png" ></img>
+    <div class="content active">
+        <p class="text-6xl font-extrabold text-yellow-500 ">Discover Culinary Bliss<br><span>Where Every Bite Tells a Story</span></p>
+        <p>Indulge in a gastronomic adventure that transcends ordinary dining. Our restaurant is a canvas of flavors, where each dish narrates a tale of passion, creativity, and, above all, deliciousness. Join us in savoring moments and creating memories, one delightful bite at a time.</p>
+        <a href="#">Explore Menu</a>
+    </div>
+    <div class="content">
+        <p class="text-6xl font-extrabold text-yellow-500 ">Your Haven of Elegance<br><span>Distinctive Stays in Serenity</span></p>
+        <p>Experience accommodation like never before. Our elegant retreat is a sanctuary of unique charm nestled in a tranquil setting. Immerse yourself in the serenity that surrounds, where every moment is crafted for comfort, style, and a touch of the extraordinary. Your stay with us promises unparalleled elegance and a truly distinctive escape.</p>
+        <a href="#">Book Your Stay</a>
+
+    </div>
+    <div class="content">
+        <p class="text-6xl font-extrabold text-yellow-500">Breathtaking Serenity<br><span>Cool Air in Nature's Embrace</span></p>
+        <p>Indulge in nature's embrace with cool, pure air that invites serenity. Immerse yourself in the tranquility of our surroundings, where every breath is an invitation to unwind. Explore a haven where the enchantment of nature meets a blissful, serene atmosphere.</p>
+
+        <a href="#">Read More</a>
+    </div>
+    <div class="content">
+        <p class="text-6xl font-extrabold text-yellow-500">Hiking Adventure at Mt. Kipipiri <br><span>Unleash the Explorer in You</span></p>
+        <p>Embark on a thrilling hiking experience at Mt. Kipipiri, where every step unfolds a new chapter of natural wonders. Traverse lush trails, breathe in the mountain air, and discover the untamed beauty that awaits. Unleash the explorer in you and make memories that reach new heights.</p>
+        <a href="#">Explore More</a>
+
+    </div>
+    <div class="content">
+        <p class="text-6xl font-extrabold text-yellow-500">Camping Bliss for the Whole Family <br><span>Create Memories Under the Stars</span></p>
+        <p>Escape to a perfect family getaway with our camping experience. Immerse yourselves in nature, enjoy the warmth of a crackling fire, and create lasting memories under the starlit sky. Unplug, unwind, and make your camping adventure a cherished family experience.</p>
+        <a href="#">Book Your Spot</a>
+
+    </div>
+    <div class="media-icons">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+    </div>
+    <div class="slider-navigation">
+        <div class="nav-btn active"></div>
+        <div class="nav-btn"></div>
+        <div class="nav-btn"></div>
+        <div class="nav-btn"></div>
+        <div class="nav-btn"></div>
+    </div>
+</section>
+<section class="py-10 bg-white">
+    <div class="relative animate__animated animate__fadeInUp">
+
+
+        <h2 class="w-full text-3xl font-bold text-center sm:text-4xl md:text-5xl"> Discover Tranquil Comfort</h2>
+        <p class="w-full py-8 mx-auto -mt-2 text-lg text-center text-gray-700 intro sm:max-w-3xl animate__animated animate__fadeInUp animate__delay-1s">  Maverick Camp,
+            Rondavels, and Homestay is a sustainable guest house in Nyandarua,
+            offering serene comfort with mountain views. Enjoy our outdoor dining,
+            full-day security, and attentive staff.
+        </p>
+        <div class="text-center items-center pb-5 mb-6">
+            <a
+                    href="/book"
+                    class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
+            >
+                Make a Booking
+            </a>
+        </div>
+    <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-8">
+        <!--Card 1-->
+        <div class="rounded overflow-hidden shadow-lg">
+            <img class="w-full"
+                 src="/images/food1.png" alt="Mountain">
+            <div class="px-6 py-4">
+                <div class="font-bold text-xl mb-2">impeccable dinning experience</div>
+                <p class="text-gray-700 text-base">
+                    Indulge in the delights of outdoor dining with our exquisite settings and delectable cuisine.
+                    Create unforgettable moments under the open sky with our carefully crafted dining experiences.
+                </p>
+            </div>
+            <div class="px-6 pt-4 pb-2">
+                <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#photography</span>
+                <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#travel</span>
+                <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#winter</span>
+            </div>
+        </div>
+        <!--Card 2-->
+        <div class="rounded overflow-hidden shadow-lg">
+            <img class="w-full"
+                 src="/images/house2.png" alt="River">
+            <div class="px-6 py-4">
+                <div class="font-bold text-xl mb-2">Cultural Accommodation</div>
+                <p class="text-gray-700 text-base">
+                    Immerse yourself in a culturally rich stay within our unique accommodations,
+                    where every moment is infused with distinctive charm and comfort
+                </p>
+            </div>
+            <div class="px-6 pt-4 pb-2">
+                <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#photography</span>
+                <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#travel</span>
+                <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#summer</span>
+            </div>
+        </div>
+
+        <!--Card 3-->
+        <div class="rounded overflow-hidden shadow-lg">
+            <img class="w-full"
+                 src="/images/hiking4.png" alt="Forest">
+            <div class="px-6 py-4">
+                <div class="font-bold text-xl mb-2">robust outdoor activities</div>
+                <p class="text-gray-700 text-base">
+                    Discover the wilderness with thrilling outdoor activities,
+                    creating unforgettable moments and sparking your sense of adventure.
+                </p>
+            </div>
+            <div class="px-6 pt-4 pb-2">
+                <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#photography</span>
+                <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#travel</span>
+                <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#fall</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- component -->
+<section class="py-10 bg-white">
+    <div class="flex flex-col px-8 mx-auto space-y-12  xl:px-12">
+
+
+
+        <div class="relative animate__animated animate__fadeInUp animate__delay-6s">
+            <h2 class="w-full text-3xl font-bold text-center sm:text-4xl md:text-5xl"> High Standard Accommodation </h2>
+            <p class="w-full py-8 mx-auto -mt-2 text-lg text-center text-gray-700 intro sm:max-w-3xl animate__animated animate__fadeInUp animate__delay-7s">Experience a stay that goes beyond comfort, with accommodation designed for cultural immersion, serene tranquility, fully furnished beddings, and high standards of housekeeping.</p>
+        </div>
+
+        <!-- Section 1 -->
+        <div class="flex flex-col mb-8 animated fadeIn sm:flex-row">
+            <div class="flex items-center mb-8 sm:w-1/2 md:w-5/12">
+                <img class="rounded-lg shadow-xl"
+                     src="/images/house2.png" alt="">
+            </div>
+            <div class="flex flex-col justify-center mt-5 mb-8 md:mt-0 sm:w-1/2 md:w-7/12 sm:pl-16">
+                <p class="mb-2 text-sm font-semibold leading-none text-left text-indigo-600 uppercase">Cultural Immersion</p>
+                <h3 class="mt-2 text-2xl sm:text-left md:text-4xl">Immerse in Local Traditions</h3>
+                <p class="mt-5 text-lg text-gray-700 text md:text-left">Our accommodations offer a unique cultural experience, allowing you to immerse yourself in local traditions and heritage.</p>
+            </div>
+        </div>
+
+        <!-- Section 2 -->
+        <div class="flex flex-col mb-8 animated fadeIn sm:flex-row">
+
+            <div class="flex flex-col justify-center mt-5 mb-8 md:mt-0 sm:w-1/2 md:w-7/12 sm:pl-16">
+                <p class="mb-2 text-sm font-semibold leading-none text-left text-indigo-600 uppercase">Serene Tranquility</p>
+                <h3 class="mt-2 text-2xl sm:text-left md:text-4xl">Peaceful Surroundings</h3>
+                <p class="mt-5 text-lg text-gray-700 text md:text-left">Enjoy the tranquility of our serene surroundings, providing a peaceful escape from the hustle and bustle of daily life.</p>
+            </div>
+            <div class="flex items-center mb-8 sm:w-1/2 md:w-5/12">
+                <img class="rounded-lg shadow-xl"
+                     src="/images/house3.png" alt="">
+            </div>
+        </div>
+
+        <!-- Section 3 -->
+        <div class="flex flex-col mb-8 sm:flex-row animate__animated animate__fadeInUp animate__delay-8s">
+            <div class="flex items-center mb-8 sm:w-1/2 md:w-5/12">
+                <img class="rounded-lg shadow-xl"
+                     src="/images/house4.png" alt="">
+            </div>
+
+
+            <div class="flex flex-col justify-center mt-5 mb-8 md:mt-0 sm:w-1/2 md:w-7/12 sm:pl-16">
+                <p class="mb-2 text-sm font-semibold leading-none text-left text-indigo-600 uppercase animate__animated animate__fadeInRight animate__delay-9s">Fully Furnished Beddings</p>
+                <h3 class="mt-2 text-2xl sm:text-left md:text-4xl animate__animated animate__fadeInRight animate__delay-10s">Luxurious Comfort</h3>
+                <p class="mt-5 text-lg text-gray-700 text md:text-left animate__animated animate__fadeInRight animate__delay-11s">Indulge in luxurious comfort with fully furnished well-kept beddings, ensuring a relaxing and rejuvenating stay.</p>
+            </div>
+
+
+        </div>
+        </div>
+
+
+</section>
+<section class="py-10 bg-white animate__animated animate__fadeIn">
+    <div class="flex flex-col px-8 mx-auto space-y-7 max-w-7xl xl:px-12">
+
+
+        <!-- Camping Section -->
+        <!-- Outdoor Dining Section -->
+        <div class="py-10 bg-white animate__animated animate__fadeIn">
+
+                <div class="relative">
+                    <h2 class="w-full text-3xl font-bold text-center sm:text-4xl md:text-5xl">Outdoor Adventure Awaits</h2>
+                    <p class="w-full py-8 mx-auto -mt-2 text-lg text-center text-gray-700 intro sm:max-w-3xl">Embark on an unforgettable journey with our outdoor activities. From camping under the stars to cozy evenings by the fire, and thrilling hikes, we've curated experiences that connect you with nature.</p>
+                </div>
+
+                <div class="flex flex-col mb-8 animated fadeIn sm:flex-row">
+                    <div class="flex items-center mb-8 sm:w-1/2 md:w-7/12 sm:order-last">
+                        <div class="slideshow-container">
+                            <img class="mySlides rounded-lg shadow-xl"
+                                 src="/images/food1.png" alt="">
+                            <img class="mySlides rounded-lg shadow-xl" src="/images/food/food.png" alt="">
+                            <img class="mySlides rounded-lg shadow-xl"
+                                 src="/images/food/food1.png" alt="">
+                            <img class="mySlides rounded-lg shadow-xl"
+                                 src="/images/food/food2.png" alt="">
+                            <img class="mySlides rounded-lg shadow-xl"
+                                 src="/images/food/environment.png" alt="">
+                        </div>
+                    </div>
+                    <div class="flex flex-col justify-center mt-5 mb-8 md:mt-0 sm:w-1/2 md:w-5/12 sm:pr-16">
+                        <p class="mb-2 text-sm font-semibold leading-none text-left text-indigo-600 uppercase">Al Fresco Ambiance</p>
+                        <h3 class="mt-2 text-2xl sm:text-left md:text-4xl">Dine Amidst Nature</h3>
+                        <p class="mt-3 text-lg text-gray-700 text md:text-left">Experience the joy of dining in the midst of nature. Our outdoor dining spaces are carefully designed to provide a perfect blend of comfort and natural beauty. Revel in the ambiance as you savor delightful dishes.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            let slideIndex = 0;
+            showSlides();
+
+            function showSlides() {
+                let i;
+                const slides = document.getElementsByClassName("mySlides");
+                for (i = 0; i < slides.length; i++) {
+                    slides[i].style.display = "none";
+                }
+                slideIndex++;
+                if (slideIndex > slides.length) { slideIndex = 1 }
+                slides[slideIndex - 1].style.display = "block";
+                setTimeout(showSlides, 4000); // Change slide every 4 seconds
+            }
+        </script>
+
+        <!-- Fireplace Section -->
+        <div class="flex flex-col mb-8 animated fadeIn sm:flex-row w-full">
+            <div class="flex items-center mb-8 sm:w-1/2 md:w-6/12">
+                <img class="rounded-lg shadow-xl" src="/images/camping.png" alt="">
+            </div>
+            <div class="flex flex-col justify-center mt-5 mb-8 md:mt-0 sm:w-1/2 md:w-6/12 sm:pl-16">
+                <p class="mb-2 text-sm font-semibold leading-none text-left text-indigo-600 uppercase">Cozy Fireplace Evenings</p>
+                <h3 class="mt-2 text-2xl sm:text-left md:text-4xl">Warmth and Relaxation</h3>
+                <p class="mt-5 text-lg text-gray-700 text md:text-left">Unwind with cozy evenings by the fireplace. Share stories, enjoy the warmth, and create lasting memories in a tranquil setting.</p>
+            </div>
+        </div>
+        <div class="flex flex-col mb-8 animated fadeIn sm:flex-row">
+            <div class="flex items-center mb-8 sm:w-1/2 md:w-7/12 sm:order-last">
+                <div class="slideshow-container">
+                    <img class="mSlides rounded-lg shadow-xl" src="/images/hiking1.png" alt="">
+                    <img class="mSlides rounded-lg shadow-xl" src="/images/hiking2.png" alt="">
+                    <img class="mSlides rounded-lg shadow-xl" src="/images/hiking3.png" alt="">
+                    <img class="mSlides rounded-lg shadow-xl" src="/images/hiking4.png" alt="">
+                    <img class="mSlides rounded-lg shadow-xl" src="/images/hiking5.png" alt="">
+                </div>
+            </div>
+            <div class="flex flex-col justify-center mt-5 mb-8 md:mt-0 sm:w-1/2 md:w-7/12 sm:pr-16">
+                <p class="mb-2 text-sm font-semibold leading-none text-left text-indigo-600 uppercase">Thrilling Hiking Trails</p>
+                <h3 class="mt-2 text-2xl sm:text-left md:text-4xl">Explore the Jungle</h3>
+                <p class="mt-3 text-lg text-gray-700 text md:text-left">Embark on thrilling hiking trails amidst the beautiful scenery of Mt. Kipipri. Immerse yourself in the breathtaking landscapes and discover the wonders of nature.</p>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                let slideIndex = 0;
+                showSlides();
+
+                function showSlides() {
+                    let i;
+                    const slides = document.getElementsByClassName("mSlides");
+                    for (i = 0; i < slides.length; i++) {
+                        slides[i].style.display = "none";
+                    }
+                    slideIndex++;
+                    if (slideIndex > slides.length) { slideIndex = 1 }
+                    slides[slideIndex - 1].style.display = "block";
+                    setTimeout(showSlides, 4000); // Change slide every 4 seconds
+                }
+            });
+        </script>
+
+
+</section>
+<hr class="my-12 border-gray-200 border-5 "/>
+<div th:replace="fragment :: footer"></div>
+
+
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const sections = document.querySelectorAll('.animate__animated');
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate__animated', 'animate__fadeIn');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const sections = document.querySelectorAll('.animated');
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate__animated', 'animate__fadeIn');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+    });
+</script>
+
+
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const btns = document.querySelectorAll(".nav-btn");
+        const slides = document.querySelectorAll(".img-slide");
+        const contents = document.querySelectorAll(".content");
+
+        let currentIndex = 0;
+
+        function updateSlide() {
+            btns.forEach((btn) => {
+                btn.classList.remove("active");
+            });
+
+            slides.forEach((slide) => {
+                slide.classList.remove("active");
+            });
+
+            contents.forEach((content) => {
+                content.classList.remove("active");
+            });
+
+            btns[currentIndex].classList.add("active");
+            slides[currentIndex].classList.add("active");
+            contents[currentIndex].classList.add("active");
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % slides.length;
+            updateSlide();
+        }
+
+        function autoSlide() {
+            setInterval(() => {
+                nextSlide();
+            }, 10000); // Slide every 5 seconds
+        }
+
+        // Start auto sliding
+        autoSlide();
+
+        btns.forEach((btn, i) => {
+            btn.addEventListener("click", () => {
+                currentIndex = i;
+                updateSlide();
+            });
+        });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const sections = document.querySelectorAll('.animated');
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate__animated', 'animate__fadeIn', 'animate__delay-1s, animate__slow');
+                    // Add your desired animation classes
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+    });
+</script>
+
+
+
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const btns = document.querySelectorAll(".nav-btn");
+        const slides = document.querySelectorAll(".img-slide");
+        const contents = document.querySelectorAll(".content");
+
+        let currentIndex = 0;
+
+        function updateSlide() {
+            btns.forEach((btn) => {
+                btn.classList.remove("active");
+            });
+
+            slides.forEach((slide) => {
+                slide.classList.remove("active");
+            });
+
+            contents.forEach((content) => {
+                content.classList.remove("active");
+            });
+
+            btns[currentIndex].classList.add("active");
+            slides[currentIndex].classList.add("active");
+            contents[currentIndex].classList.add("active");
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % slides.length;
+            updateSlide();
+        }
+
+        function autoSlide() {
+            setInterval(() => {
+                nextSlide();
+            }, 5000); // Slide every 5 seconds
+        }
+
+        // Start auto sliding
+        autoSlide();
+
+        btns.forEach((btn, i) => {
+            btn.addEventListener("click", () => {
+                currentIndex = i;
+                updateSlide();
+            });
+        });
+    });
+</script>
+<script>
+    // Burger menus
+    document.addEventListener('DOMContentLoaded', function() {
+        // open
+        const burger = document.querySelectorAll('.navbar-burger');
+        const menu = document.querySelectorAll('.navbar-menu');
+
+        if (burger.length && menu.length) {
+            for (var i = 0; i < burger.length; i++) {
+                burger[i].addEventListener('click', function() {
+                    for (var j = 0; j < menu.length; j++) {
+                        menu[j].classList.toggle('hidden');
+                    }
+                });
+            }
+        }
+
+        // close
+        const close = document.querySelectorAll('.navbar-close');
+        const backdrop = document.querySelectorAll('.navbar-backdrop');
+
+        if (close.length) {
+            for (var i = 0; i < close.length; i++) {
+                close[i].addEventListener('click', function() {
+                    for (var j = 0; j < menu.length; j++) {
+                        menu[j].classList.toggle('hidden');
+                    }
+                });
+            }
+        }
+
+        if (backdrop.length) {
+            for (var i = 0; i < backdrop.length; i++) {
+                backdrop[i].addEventListener('click', function() {
+                    for (var j = 0; j < menu.length; j++) {
+                        menu[j].classList.toggle('hidden');
+                    }
+                });
+            }
+        }
+    });
+
+
+
+
+
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const navbarMenu = document.querySelector('.navbar-menu');
+        const navbarBackdrop = document.querySelector('.navbar-backdrop');
+        const navbarBurger = document.querySelector('.navbar-burger');
+        const navbarClose = document.querySelector('.navbar-close');
+
+        // Open the mobile menu
+        navbarBurger.addEventListener('click', function () {
+            navbarMenu.classList.add('visible');
+            navbarBackdrop.classList.add('visible');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+        });
+
+        // Close the mobile menu
+        navbarClose.addEventListener('click', function () {
+            navbarMenu.classList.remove('visible');
+            navbarBackdrop.classList.remove('visible');
+            document.body.style.overflow = ''; // Allow scrolling
+        });
+
+        // Close the mobile menu when clicking the backdrop
+        navbarBackdrop.addEventListener('click', function () {
+            navbarMenu.classList.remove('visible');
+            navbarBackdrop.classList.remove('visible');
+            document.body.style.overflow = ''; // Allow scrolling
+        });
+    });
+
+</script>
+
+
+
+</html>

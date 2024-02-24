@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+        >
+<head th:fragment="header">
+    <meta charset="UTF-8">
+    <title th:if="${title} != null" th:text="${title}">marveric camp</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+</head>
+
+<body class="bg-blue-500 ">
+
+<div th:fragment="header">
+    <nav class="relative px-4 py-4 flex justify-between space-x-2 bg-yellow-300">
+        <a class="text-3xl font-bold leading-none" href="#">
+            <p class="text-lg"> Maverick Camp, Rondavels and Homestay</p>
+        </a>
+        <div class="lg:hidden">
+            <button class="navbar-burger flex items-center text-blue-600 p-3">
+                <svg class="block h-4 w-4 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <title>Mobile menu</title>
+                    <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
+                </svg>
+            </button>
+        </div>
+        <ul class="hidden lg:flex lg:mx-auto lg:w-auto lg:space-x-6 pl-5 relative font-bold text-black hover:text-gray-500">
+            <li><a class="text-md font=-bold text-black hover:text-gray-500" href="/">Home</a></li>
+            <li><a class="text-md text-black font-bold" href="/about_us">About Us</a></li>
+            <li><a class="text-md text-black hover:text-gray-500" href="/events">Events</a></li>
+            <li><a class="text-md text-black hover:text-gray-500" href="/contact">Contact</a></li>
+            <li><a class="text-md text-black hover:text-gray-500" href="/rooms">Accommodation</a></li>
+            <li><a class="text-md text-black hover:text-gray-500" href="/gallery">Gallery</a></li>
+            <li><a class="text-md text-black hover:text-gray-500" href="/all_blogs">Blog</a></li>
+
+            <li th:if="${#authorization.expression('isAuthenticated()')}">
+                <a class="text-md text-black hover:text-gray-500" href="/add_event">add event</a>
+            </li>
+            <li th:if="${#authorization.expression('isAuthenticated()')}">
+                <a class="text-md text-black hover:text-gray-500" href="/add_blog">add blog</a>
+            </li>
+
+
+        </ul>
+        <script th:inline="javascript">
+            document.addEventListener('DOMContentLoaded', function ()
+            {
+                var currentUrl = window.location.pathname;
+                var displayBook = currentUrl === '/rooms';
+                var bookElement = document.getElementById('bookContent');
+                if (bookElement)
+                {
+                    bookElement.style.display = displayBook ? 'block' : 'none';
+                }
+            });
+        </script>
+        <div id="bookContent">
+            <a class="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold  rounded-xl transition duration-200"
+               href="/book">Book Now</a>
+        </div>
+    </nav>
+    <div class="navbar-menu relative z-50 hidden">
+        <div class="navbar-backdrop fixed inset-0 bg-gray-800 opacity-25"></div>
+        <nav class="fixed top-0 left-0 bottom-0 flex flex-col w-5/6 max-w-sm py-6 px-6 bg-white border-r overflow-y-auto">
+            <div class="flex items-center mb-8">
+                <a class="mr-auto text-3xl font-bold leading-none" href="#">
+                    <img src="/images/Logo_Main.png" class="h-11" alt=""/>
+                </a>
+                <button class="navbar-close">
+                    <svg class="h-6 w-6 text-gray-400 cursor-pointer hover:text-gray-500"
+                         xmlns="http://www.w3.org/2000/svg"
+                         fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div>
+                <ul>
+                    <li class="mb-1">
+                        <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded"
+                           href="/">Home</a>
+                    </li>
+                    <li class="mb-1">
+                        <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded"
+                           href="/about_us">About Us</a>
+                    </li>
+                    <li class="mb-1">
+                        <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded"
+                           href="/events">Events</a>
+                    </li>
+                    <li class="mb-1">
+                        <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded"
+                           href="/rooms">Accommodation</a>
+                    </li>
+                    <li class="mb-1">
+                        <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded"
+                           href="/contact">Contact</a>
+                    </li>
+                    <li class="mb-1">
+                        <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded"
+                           href="/gallery">Gallery</a>
+                    </li>
+                    <li class="mb-1">
+                        <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded"
+                           href="/blog">Blog</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="mt-auto">
+                <div class="pt-6">
+                    <a class=" uppercase block px-4 py-3 mb-3 text-xs text-center font-semibold leading-none bg-gray-50 hover:bg-gray-100 rounded-xl"
+                       href="/book">Book now </a>
+
+                </div>
+                <p class="text-sm text-gray-500">
+                    © Copyright <span id="Year"></span> Maverick camp and Rondavels.
+                </p>
+
+                <script>
+                    document.getElementById("Year").textContent = new Date().getFullYear().toString();
+                </script>
+            </div>
+        </nav>
+        <script>
+            // Burger menus
+            document.addEventListener('DOMContentLoaded', function () {
+                // open
+                const burger = document.querySelectorAll('.navbar-burger');
+                const menu = document.querySelectorAll('.navbar-menu');
+
+                if (burger.length && menu.length) {
+                    for (var i = 0; i < burger.length; i++) {
+                        burger[i].addEventListener('click', function () {
+                            for (var j = 0; j < menu.length; j++) {
+                                menu[j].classList.toggle('hidden');
+                            }
+                        });
+                    }
+                }
+
+                // close
+                const close = document.querySelectorAll('.navbar-close');
+                const backdrop = document.querySelectorAll('.navbar-backdrop');
+
+                if (close.length) {
+                    for (var i = 0; i < close.length; i++) {
+                        close[i].addEventListener('click', function () {
+                            for (var j = 0; j < menu.length; j++) {
+                                menu[j].classList.toggle('hidden');
+                            }
+                        });
+                    }
+                }
+
+                if (backdrop.length)
+                {
+                    for (var i = 0; i < backdrop.length; i++) {
+                        backdrop[i].addEventListener('click', function ()
+                        {
+                            for (var j = 0; j < menu.length; j++)
+                            {
+                                menu[j].classList.toggle('hidden');
+                            }
+                        });
+                    }
+                }
+            });
+        </script>
+    </div>
+</div>
+
+<footer class="bg-white dark:bg-gray-900" th:fragment="footer">
+    <div class="container px-6 py-12 mx-auto">
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4  items-start">
+        <div class="p-6 mr-2 bg-gray-25 dark:bg-gray-800 sm:rounded-lg">
+                <p class="text-gray-800 dark:text-white font-extrabold tracking-tight">
+                    Get in touch
+                </p>
+                <p class="text-normal text-md sm:text-md font-medium text-gray-600 dark:text-gray-400 mt-2">
+                    Reach to us
+                </p>
+
+                <div class="flex items-center mt-8 text-gray-600 dark:text-gray-400">
+                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" class="w-8 h-8 text-gray-500">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    <div class="ml-4 text-md tracking-wide font-semibold w-40">
+                        I.Ng’ang’a Road 20,
+                        Wanjohi, 20305
+                        Nyandarua PG4F+VH Ndiara
+                    </div>
+                </div>
+
+                <div class="flex items-center mt-2 text-gray-600 dark:text-gray-400">
+                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" class="w-8 h-8 text-gray-500">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                    </svg>
+                    <div class="ml-4 text-md tracking-wide font-semibold">
+                        +254 722 123 456
+                    </div>
+                </div>
+
+                <div class="flex items-center mt-2 text-gray-600 dark:text-gray-400">
+                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" class="w-8 h-8 text-gray-500">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                    </svg>
+                    <div class="ml-4 text-md tracking-wide font-semibold w-40">
+                        mavcam@gmail.com
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div>
+                <p class="font-semibold text-gray-800 dark:text-white">Quick Links</p>
+
+                <div class="flex flex-col items-start mt-5 space-y-2">
+                    <a href="/"
+                       class="text-gray-600 transition-colors duration-300 dark:text-gray-300 dark:hover:text-blue-400 hover:underline hover:text-blue-500">Home</a>
+                    <a href="/https://www.bing.com/maps?q=Maverick+Camp%2C+Rondavels+%26+Homestay&FORM=HDRSC7&cp=53.214%7E-0.466232&lvl=16.0"
+                       class="text-gray-600 transition-colors duration-300 dark:text-gray-300 dark:hover:text-blue-400 hover:underline hover:text-blue-500">Location</a>
+                    <a href="#"
+                       class="text-gray-600 transition-colors duration-300 dark:text-gray-300 dark:hover:text-blue-400 hover:underline hover:text-blue-500">About
+                        Us</a>
+                    <a href="/"
+                       class="text-gray-600 transition-colors duration-300 dark:text-gray-300 dark:hover:text-blue-400 hover:underline hover:text-blue-500">Services</a>
+                </div>
+            </div>
+
+            <div>
+                <p class="font-semibold text-gray-800 dark:text-white">We Are Social</p>
+
+                <div class="flex flex-col items-start mt-5 space-y-2">
+                    <a href="https://www.facebook.com/maverickventures"
+                       class="text-gray-600 transition-colors duration-300 dark:text-gray-300 dark:hover:text-blue-400 hover:underline hover:text-blue-500">Facebook</a>
+                    <a href="https://www.facebook.com/maverickventures"
+                       class="text-gray-600 transition-colors duration-300 dark:text-gray-300 dark:hover:text-blue-400 hover:underline hover:text-blue-500">X</a>
+                    <a href="#"
+                       class="text-gray-600 transition-colors duration-300 dark:text-gray-300 dark:hover:text-blue-400 hover:underline hover:text-blue-500">Instagram</a>
+                </div>
+            </div>
+            <div class="">
+                <h1 class="max-w-lg text-xl font-semibold tracking-tight text-gray-800 xl:text-2xl dark:text-white">Get
+                    in touch.</h1>
+
+
+                <form class="w-full max-w-lg" th:action="@{/message}" method="post">
+
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                        <div class="w-full px-3">
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                E-mail
+                            </label>
+                            <label for="email">
+
+                            </label><input name="enquiry_email"
+                                           class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                           id="email" type="email">
+
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                        <div class="w-full px-3">
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                Message
+                            </label>
+                            <label for="message">
+
+                            </label><textarea name="message"
+                                              class=" no-resize appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 h-10 resize-none"
+                                              id="message"></textarea>
+                            <p class="text-gray-600 text-xs italic">send us a query or an enquiry</p>
+                        </div>
+                    </div>
+                    <div class="md:flex md:items-center">
+                        <div class="md:w-1/3">
+                            <button class="shadow bg-green-400 hover:bg-teal-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+                                    type="submit">
+                                Send
+                            </button>
+                        </div>
+                        <div class="md:w-2/3"></div>
+                    </div>
+                </form>
+            </div>
+
+
+
+
+        </div>
+
+        <hr class="my-6 border-gray-200 md:my-8 dark:border-gray-700">
+
+        <div class="flex items-center justify-between">
+            <p class="text-sm text-gray-500">
+                © Copyright <span id="currentYear"></span> Maverick camp and Rondavels. All rights reserved.
+            </p>
+
+            <script>
+                document.getElementById("currentYear").textContent = new Date().getFullYear().toString();
+            </script>
+
+
+            <div class="flex -mx-2 items-baseline">
+                <a href="#"
+                   class="mx-2 text-gray-600 transition-colors duration-300 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400"
+                   aria-label="x">
+                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="27" height="20" viewBox="0 0 24 24">
+                        <path d="M 2.3671875 3 L 9.4628906 13.140625 L 2.7402344 21 L 5.3808594 21 L 10.644531 14.830078 L 14.960938 21 L 21.871094 21 L 14.449219 10.375 L 20.740234 3 L 18.140625 3 L 13.271484 8.6875 L 9.2988281 3 L 2.3671875 3 z M 6.2070312 5 L 8.2558594 5 L 18.033203 19 L 16.001953 19 L 6.2070312 5 z"></path>
+                    </svg>
+                </a>
+
+                <a href="#"
+                   class="mx-2 text-gray-600 transition-colors duration-300 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400"
+                   aria-label="Facebook">
+                    <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" fill="none"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path
+                                d="M2.00195 12.002C2.00312 16.9214 5.58036 21.1101 10.439 21.881V14.892H7.90195V12.002H10.442V9.80204C10.3284 8.75958 10.6845 7.72064 11.4136 6.96698C12.1427 6.21332 13.1693 5.82306 14.215 5.90204C14.9655 5.91417 15.7141 5.98101 16.455 6.10205V8.56104H15.191C14.7558 8.50405 14.3183 8.64777 14.0017 8.95171C13.6851 9.25566 13.5237 9.68693 13.563 10.124V12.002H16.334L15.891 14.893H13.563V21.881C18.8174 21.0506 22.502 16.2518 21.9475 10.9611C21.3929 5.67041 16.7932 1.73997 11.4808 2.01722C6.16831 2.29447 2.0028 6.68235 2.00195 12.002Z">
+                        </path>
+                    </svg>
+                </a>
+
+                <a href="#"
+                   class="mx-2 text-gray-600 transition-colors duration-300 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400"
+                   aria-label="instergram">
+                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="28" height="21" viewBox="0 0 48 48">
+                        <radialGradient id="yOrnnhliCrdS2gy~4tD8ma_Xy10Jcu1L2Su_gr1" cx="19.38" cy="42.035" r="44.899"
+                                        gradientUnits="userSpaceOnUse">
+                            <stop offset="0" stop-color="#fd5"></stop>
+                            <stop offset=".328" stop-color="#ff543f"></stop>
+                            <stop offset=".348" stop-color="#fc5245"></stop>
+                            <stop offset=".504" stop-color="#e64771"></stop>
+                            <stop offset=".643" stop-color="#d53e91"></stop>
+                            <stop offset=".761" stop-color="#cc39a4"></stop>
+                            <stop offset=".841" stop-color="#c837ab"></stop>
+                        </radialGradient>
+                        <path fill="url(#yOrnnhliCrdS2gy~4tD8ma_Xy10Jcu1L2Su_gr1)"
+                              d="M34.017,41.99l-20,0.019c-4.4,0.004-8.003-3.592-8.008-7.992l-0.019-20	c-0.004-4.4,3.592-8.003,7.992-8.008l20-0.019c4.4-0.004,8.003,3.592,8.008,7.992l0.019,20	C42.014,38.383,38.417,41.986,34.017,41.99z"></path>
+                        <radialGradient id="yOrnnhliCrdS2gy~4tD8mb_Xy10Jcu1L2Su_gr2" cx="11.786" cy="5.54" r="29.813"
+                                        gradientTransform="matrix(1 0 0 .6663 0 1.849)" gradientUnits="userSpaceOnUse">
+                            <stop offset="0" stop-color="#4168c9"></stop>
+                            <stop offset=".999" stop-color="#4168c9" stop-opacity="0"></stop>
+                        </radialGradient>
+                        <path fill="url(#yOrnnhliCrdS2gy~4tD8mb_Xy10Jcu1L2Su_gr2)"
+                              d="M34.017,41.99l-20,0.019c-4.4,0.004-8.003-3.592-8.008-7.992l-0.019-20	c-0.004-4.4,3.592-8.003,7.992-8.008l20-0.019c4.4-0.004,8.003,3.592,8.008,7.992l0.019,20	C42.014,38.383,38.417,41.986,34.017,41.99z"></path>
+                        <path fill="#fff"
+                              d="M24,31c-3.859,0-7-3.14-7-7s3.141-7,7-7s7,3.14,7,7S27.859,31,24,31z M24,19c-2.757,0-5,2.243-5,5	s2.243,5,5,5s5-2.243,5-5S26.757,19,24,19z"></path>
+                        <circle cx="31.5" cy="16.5" r="1.5" fill="#fff"></circle>
+                        <path fill="#fff"
+                              d="M30,37H18c-3.859,0-7-3.14-7-7V18c0-3.86,3.141-7,7-7h12c3.859,0,7,3.14,7,7v12	C37,33.86,33.859,37,30,37z M18,13c-2.757,0-5,2.243-5,5v12c0,2.757,2.243,5,5,5h12c2.757,0,5-2.243,5-5V18c0-2.757-2.243-5-5-5H18z"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+</body>
+</html>

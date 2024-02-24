@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+    <style>
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap');
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        header{
+            z-index: 999;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 200px;
+            transition: 0.5s ease;
+        }
+
+        header .brand{
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-decoration: none;
+        }
+
+        header .brand:hover{
+            color: #09a6d4;
+        }
+
+        header .navigation{
+            position: relative;
+        }
+
+        header .navigation .navigation-items a{
+            position: relative;
+            color: #fff;
+            font-size: 1em;
+            font-weight: 500;
+            text-decoration: none;
+            margin-left: 30px;
+            transition: 0.3s ease;
+        }
+
+        header .navigation .navigation-items a:before{
+            content: '';
+            position: absolute;
+            background: #fff;
+            width: 0;
+            height: 3px;
+            bottom: 0;
+            left: 0;
+            transition: 0.3s ease;
+        }
+
+        header .navigation .navigation-items a:hover:before{
+            width: 100%;
+            background: #09a6d4;
+        }
+
+        section{
+            padding: 100px 200px;
+        }
+
+        .home {
+            position: relative;
+            width: 100%;
+            /*min-height: 100vh;*/
+            min-height: 75vh; /* 75% of the viewport height */
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            background: rgba(0, 140, 255, 0.959);
+        }
+
+        .home:before{
+            z-index: 777;
+            content: '';
+            position: absolute;
+            background: rgba(251, 3, 3, 0.034);
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .home .content{
+            z-index: 888;
+            color: #fff;
+            width: 70%;
+            margin-top: 50px;
+            display: none;
+        }
+
+        .home .content.active{
+            display: block;
+        }
+
+        .home .content h1{
+            font-size: 4em;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            line-height: 75px;
+            margin-bottom: 40px;
+        }
+
+        .home .content h1 span{
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        .home .content p{
+            margin-bottom: 65px;
+        }
+
+        .home .content a{
+            background: #fff;
+            padding: 15px 35px;
+            color: #09a6d4;
+            font-size: 1.1em;
+            font-weight: 500;
+            text-decoration: none;
+            border-radius: 2px;
+        }
+
+        .home .content a:hover{
+            background: #09a6d4;
+            color: #fff;
+        }
+
+        .home .media-icons{
+            z-index: 888;
+            position: absolute;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            transition: 0.5s ease;
+        }
+
+        .home .media-icons a{
+            color: #fff;
+            font-size: 1.6em;
+            transition: 0.3s ease;
+        }
+
+        .home .media-icons a:not(:last-child){
+            margin-bottom: 20px;
+        }
+
+        .home .media-icons a:hover{
+            transform: scale(1.3);
+            color: #09a6d4;
+        }
+
+        .home img{
+            z-index: 000;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slider-navigation{
+            z-index: 888;
+            position: relative;
+            /*position: absolute;*/
+            bottom: 0;
+            left: 50%;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: translateY(80px);
+            margin-bottom: 12px;
+        }
+
+        .slider-navigation .nav-btn{
+            width: 12px;
+            height: 12px;
+            background: #fff;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
+            transition: 0.3s ease;
+        }
+
+        .slider-navigation .nav-btn.active{
+            background: #09a6d4;
+        }
+
+        .slider-navigation .nav-btn:not(:last-child){
+            margin-right: 20px;
+        }
+
+        .slider-navigation .nav-btn:hover{
+            transform: scale(1.2);
+        }
+
+        .img-slide{
+            position: absolute;
+            width: 100%;
+            clip-path: circle(0% at 0 50%);
+        }
+
+        .img-slide.active{
+            clip-path: circle(150% at 0 50%);
+            transition: 2s ease;
+            transition-property: clip-path;
+        }
+        /*.home {*/
+        /*    position: relative;*/
+        /*    width: 100%;*/
+        /*    min-height: 75vh; !* 75% of the viewport height *!*/
+        /*    display: flex;*/
+        /*    justify-content: center;*/
+        /*    flex-direction: column;*/
+        /*    background: rgba(0, 140, 255, 0.959);*/
+        /*}*/
+
+
+        @media (max-width: 1040px){
+            header{
+                padding: 12px 20px;
+            }
+            section{
+                padding: 100px 20px;
+            }
+            .home .media-icons{
+                right: 15px;
+            }
+            header .navigation{
+                display: none;
+            }
+            header .navigation.active{
+                position: fixed;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: rgba(1, 1, 1, 0.5);
+            }
+
+            header .navigation .navigation-items a{
+                color: #222;
+                font-size: 1.2em;
+                margin: 20px;
+            }
+            header .navigation .navigation-items a:before{
+                background: #222;
+                height: 5px;
+            }
+            header .navigation .navigation-items{
+                background: #fff;
+                width: 600px;
+                max-width: 600px;
+                margin: 20px;
+                padding: 40px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                border-radius: 5px;
+                box-shadow: 0 5px 25px rgb(1 1 1 / 20%);
+            }
+
+        }
+
+        @media (max-width: 560px){
+            .home .content h1{
+                font-size: 3em;
+                line-height: 60px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+<nav class="relative px-4 py-4 flex justify-between items-center bg-white z-1000 " >
+    <a class="text-3xl font-bold leading-none" href="#">
+        <svg class="h-10" alt="logo" viewBox="0 0 10240 10240">
+            <path xmlns="http://www.w3.org/2000/svg"
+                  d="M8284 9162 c-2 -207 -55 -427 -161 -667 -147 -333 -404 -644 -733 -886 -81 -59 -247 -169 -256 -169 -3 0 -18 -9 -34 -20 -26 -19 -344 -180 -354 -180 -3 0 -29 -11 -58 -24 -227 -101 -642 -225 -973 -290 -125 -25 -397 -70 -480 -80 -22 -3 -76 -9 -120 -15 -100 -13 -142 -17 -357 -36 -29 -2 -98 -7 -153 -10 -267 -15 -436 -28 -525 -40 -14 -2 -45 -7 -70 -10 -59 -8 -99 -14 -130 -20 -14 -3 -41 -7 -60 -11 -19 -3 -39 -7 -45 -8 -5 -2 -28 -6 -50 -10 -234 -45 -617 -165 -822 -257 -23 -10 -45 -19 -48 -19 -7 0 -284 -138 -340 -170 -631 -355 -1107 -842 -1402 -1432 -159 -320 -251 -633 -308 -1056 -26 -190 -27 -635 -1 -832 3 -19 7 -59 10 -89 4 -30 11 -84 17 -120 6 -36 12 -77 14 -91 7 -43 33 -174 39 -190 3 -8 7 -28 9 -45 6 -35 52 -221 72 -285 7 -25 23 -79 35 -120 29 -99 118 -283 189 -389 67 -103 203 -244 286 -298 75 -49 178 -103 196 -103 16 0 27 16 77 110 124 231 304 529 485 800 82 124 153 227 157 230 3 3 28 36 54 74 116 167 384 497 546 671 148 160 448 450 560 542 14 12 54 45 90 75 88 73 219 172 313 238 42 29 77 57 77 62 0 5 -13 34 -29 66 -69 137 -149 405 -181 602 -7 41 -14 82 -15 90 -1 8 -6 46 -10 83 -3 37 -8 77 -10 88 -2 11 -7 65 -11 122 -3 56 -8 104 -9 107 -2 3 0 12 5 19 6 10 10 8 15 -10 10 -34 167 -346 228 -454 118 -210 319 -515 340 -515 4 0 40 18 80 40 230 128 521 255 787 343 118 40 336 102 395 113 28 5 53 11 105 23 25 5 59 12 75 15 17 3 41 8 55 11 34 7 274 43 335 50 152 18 372 29 565 29 194 0 481 -11 489 -19 2 -3 -3 -6 -12 -6 -9 -1 -20 -2 -24 -3 -33 -8 -73 -16 -98 -21 -61 -10 -264 -56 -390 -90 -649 -170 -1243 -437 -1770 -794 -60 -41 -121 -82 -134 -93 l-24 -18 124 -59 c109 -52 282 -116 404 -149 92 -26 192 -51 220 -55 17 -3 64 -12 105 -21 71 -14 151 -28 230 -41 19 -3 46 -7 60 -10 14 -2 45 -7 70 -10 25 -4 56 -8 70 -10 14 -2 53 -7 88 -10 35 -4 71 -8 81 -10 10 -2 51 -6 92 -9 101 -9 141 -14 147 -21 3 -3 -15 -5 -39 -6 -24 0 -52 -2 -62 -4 -21 -4 -139 -12 -307 -22 -242 -14 -700 -7 -880 13 -41 4 -187 27 -250 39 -125 23 -274 68 -373 111 -43 19 -81 34 -86 34 -4 0 -16 -8 -27 -17 -10 -10 -37 -33 -59 -52 -166 -141 -422 -395 -592 -586 -228 -257 -536 -672 -688 -925 -21 -36 -43 -66 -47 -68 -4 -2 -8 -7 -8 -11 0 -5 -24 -48 -54 -97 -156 -261 -493 -915 -480 -935 2 -3 47 -21 101 -38 54 -18 107 -36 118 -41 58 -25 458 -138 640 -181 118 -27 126 -29 155 -35 14 -2 45 -9 70 -14 66 -15 137 -28 300 -55 37 -7 248 -33 305 -39 28 -3 84 -9 125 -13 163 -16 792 -8 913 12 12 2 58 9 102 15 248 35 423 76 665 157 58 19 134 46 170 60 86 33 344 156 348 166 2 4 8 7 13 7 14 0 205 116 303 184 180 126 287 216 466 396 282 281 511 593 775 1055 43 75 178 347 225 455 100 227 236 602 286 790 59 220 95 364 120 485 6 28 45 245 50 275 2 14 7 41 10 60 3 19 8 49 10 65 2 17 6 46 9 65 15 100 35 262 40 335 3 39 8 89 10 112 22 225 33 803 21 1043 -3 41 -7 129 -11 195 -3 66 -8 136 -10 155 -2 19 -6 76 -10 125 -3 50 -8 101 -10 115 -2 14 -6 57 -10 95 -7 72 -12 113 -20 175 -2 19 -7 55 -10 80 -6 46 -43 295 -51 340 -2 14 -9 54 -15 90 -5 36 -16 97 -24 135 -8 39 -17 84 -20 100 -12 68 -18 97 -50 248 -19 87 -47 204 -61 260 -14 56 -27 109 -29 117 -30 147 -232 810 -253 832 -4 4 -7 -23 -8 -60z"></path>
+        </svg>
+    </a>
+    <div class="lg:hidden">
+        <button class="navbar-burger flex items-center text-blue-600 p-3">
+            <svg class="block h-4 w-4 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <title>Mobile menu</title>
+                <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
+            </svg>
+        </button>
+    </div>
+    <ul class="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:flex lg:mx-auto lg:flex lg:items-center lg:w-auto lg:space-x-6">
+        <li><a class="text-sm text-gray-400 hover:text-gray-500" href="#">Home</a></li>
+        <li class="text-gray-300">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" class="w-4 h-4 current-fill"
+                 viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M12 5v0m0 7v0m0 7v0m0-13a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
+            </svg>
+        </li>
+        <li><a class="text-sm text-blue-600 font-bold" href="#">About Us</a></li>
+        <li class="text-gray-300">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" class="w-4 h-4 current-fill"
+                 viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M12 5v0m0 7v0m0 7v0m0-13a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
+            </svg>
+        </li>
+        <li><a class="text-sm text-gray-400 hover:text-gray-500" href="#">Services</a></li>
+        <li class="text-gray-300">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" class="w-4 h-4 current-fill"
+                 viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M12 5v0m0 7v0m0 7v0m0-13a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
+            </svg>
+        </li>
+        <li><a class="text-sm text-gray-400 hover:text-gray-500" href="#">Pricing</a></li>
+        <li class="text-gray-300">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" class="w-4 h-4 current-fill"
+                 viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M12 5v0m0 7v0m0 7v0m0-13a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
+            </svg>
+        </li>
+        <li><a class="text-sm text-gray-400 hover:text-gray-500" href="#">Contact</a></li>
+    </ul>
+    <a class="bg-blue-500 uppercase hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 hover:bg-gray-100 text-sm text-gray-900 font-bold  rounded-xl transition duration-200 "
+       href="#">Sign In</a>
+</nav>
+<div class="navbar-menu relative z-50 hidden">
+    <div class="navbar-backdrop fixed inset-0 bg-gray-800 opacity-25"></div>
+    <nav class="fixed top-0 left-0 bottom-0 flex flex-col w-5/6 max-w-sm py-6 px-6 bg-white border-r overflow-y-auto">
+        <div class="flex items-center mb-8">
+            <a class="mr-auto text-3xl font-bold leading-none" href="#">
+                <svg class="h-12" alt="logo" viewBox="0 0 10240 10240">
+                    <path xmlns="http://www.w3.org/2000/svg"
+                          d="M8284 9162 c-2 -207 -55 -427 -161 -667 -147 -333 -404 -644 -733 -886 -81 -59 -247 -169 -256 -169 -3 0 -18 -9 -34 -20 -26 -19 -344 -180 -354 -180 -3 0 -29 -11 -58 -24 -227 -101 -642 -225 -973 -290 -125 -25 -397 -70 -480 -80 -22 -3 -76 -9 -120 -15 -100 -13 -142 -17 -357 -36 -29 -2 -98 -7 -153 -10 -267 -15 -436 -28 -525 -40 -14 -2 -45 -7 -70 -10 -59 -8 -99 -14 -130 -20 -14 -3 -41 -7 -60 -11 -19 -3 -39 -7 -45 -8 -5 -2 -28 -6 -50 -10 -234 -45 -617 -165 -822 -257 -23 -10 -45 -19 -48 -19 -7 0 -284 -138 -340 -170 -631 -355 -1107 -842 -1402 -1432 -159 -320 -251 -633 -308 -1056 -26 -190 -27 -635 -1 -832 3 -19 7 -59 10 -89 4 -30 11 -84 17 -120 6 -36 12 -77 14 -91 7 -43 33 -174 39 -190 3 -8 7 -28 9 -45 6 -35 52 -221 72 -285 7 -25 23 -79 35 -120 29 -99 118 -283 189 -389 67 -103 203 -244 286 -298 75 -49 178 -103 196 -103 16 0 27 16 77 110 124 231 304 529 485 800 82 124 153 227 157 230 3 3 28 36 54 74 116 167 384 497 546 671 148 160 448 450 560 542 14 12 54 45 90 75 88 73 219 172 313 238 42 29 77 57 77 62 0 5 -13 34 -29 66 -69 137 -149 405 -181 602 -7 41 -14 82 -15 90 -1 8 -6 46 -10 83 -3 37 -8 77 -10 88 -2 11 -7 65 -11 122 -3 56 -8 104 -9 107 -2 3 0 12 5 19 6 10 10 8 15 -10 10 -34 167 -346 228 -454 118 -210 319 -515 340 -515 4 0 40 18 80 40 230 128 521 255 787 343 118 40 336 102 395 113 28 5 53 11 105 23 25 5 59 12 75 15 17 3 41 8 55 11 34 7 274 43 335 50 152 18 372 29 565 29 194 0 481 -11 489 -19 2 -3 -3 -6 -12 -6 -9 -1 -20 -2 -24 -3 -33 -8 -73 -16 -98 -21 -61 -10 -264 -56 -390 -90 -649 -170 -1243 -437 -1770 -794 -60 -41 -121 -82 -134 -93 l-24 -18 124 -59 c109 -52 282 -116 404 -149 92 -26 192 -51 220 -55 17 -3 64 -12 105 -21 71 -14 151 -28 230 -41 19 -3 46 -7 60 -10 14 -2 45 -7 70 -10 25 -4 56 -8 70 -10 14 -2 53 -7 88 -10 35 -4 71 -8 81 -10 10 -2 51 -6 92 -9 101 -9 141 -14 147 -21 3 -3 -15 -5 -39 -6 -24 0 -52 -2 -62 -4 -21 -4 -139 -12 -307 -22 -242 -14 -700 -7 -880 13 -41 4 -187 27 -250 39 -125 23 -274 68 -373 111 -43 19 -81 34 -86 34 -4 0 -16 -8 -27 -17 -10 -10 -37 -33 -59 -52 -166 -141 -422 -395 -592 -586 -228 -257 -536 -672 -688 -925 -21 -36 -43 -66 -47 -68 -4 -2 -8 -7 -8 -11 0 -5 -24 -48 -54 -97 -156 -261 -493 -915 -480 -935 2 -3 47 -21 101 -38 54 -18 107 -36 118 -41 58 -25 458 -138 640 -181 118 -27 126 -29 155 -35 14 -2 45 -9 70 -14 66 -15 137 -28 300 -55 37 -7 248 -33 305 -39 28 -3 84 -9 125 -13 163 -16 792 -8 913 12 12 2 58 9 102 15 248 35 423 76 665 157 58 19 134 46 170 60 86 33 344 156 348 166 2 4 8 7 13 7 14 0 205 116 303 184 180 126 287 216 466 396 282 281 511 593 775 1055 43 75 178 347 225 455 100 227 236 602 286 790 59 220 95 364 120 485 6 28 45 245 50 275 2 14 7 41 10 60 3 19 8 49 10 65 2 17 6 46 9 65 15 100 35 262 40 335 3 39 8 89 10 112 22 225 33 803 21 1043 -3 41 -7 129 -11 195 -3 66 -8 136 -10 155 -2 19 -6 76 -10 125 -3 50 -8 101 -10 115 -2 14 -6 57 -10 95 -7 72 -12 113 -20 175 -2 19 -7 55 -10 80 -6 46 -43 295 -51 340 -2 14 -9 54 -15 90 -5 36 -16 97 -24 135 -8 39 -17 84 -20 100 -12 68 -18 97 -50 248 -19 87 -47 204 -61 260 -14 56 -27 109 -29 117 -30 147 -232 810 -253 832 -4 4 -7 -23 -8 -60z"></path>
+                </svg>
+            </a>
+            <button class="navbar-close">
+                <svg class="h-6 w-6 text-gray-400 cursor-pointer hover:text-gray-500" xmlns="http://www.w3.org/2000/svg"
+                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        <div>
+            <ul>
+                <li class="mb-1">
+                    <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded"
+                       href="#">Home</a>
+                </li>
+                <li class="mb-1">
+                    <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded"
+                       href="#">About Us</a>
+                </li>
+                <li class="mb-1">
+                    <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded"
+                       href="#">Services</a>
+                </li>
+                <li class="mb-1">
+                    <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded"
+                       href="#">Pricing</a>
+                </li>
+                <li class="mb-1">
+                    <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded"
+                       href="#">Contact</a>
+                </li>
+            </ul>
+        </div>
+        <div class="mt-auto">
+            <div class="pt-6">
+                <a class=" uppercase block px-4 py-3 mb-3 text-xs text-center font-semibold leading-none bg-gray-50 hover:bg-gray-100 rounded-xl"
+                   href="#">book now </a>
+                <a class="bg-blue-500 uppercase hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 hover:bg-gray-100 text-sm text-gray-900 font-bold  rounded-xl transition duration-200 "
+                   href="#">Sign In</a>
+            </div>
+            <p class="my-4 text-xs text-center text-gray-400">
+                <span>Copyright © 2024</span>
+            </p>
+        </div>
+    </nav>
+</div>
+<script>
+    // Burger menus
+    document.addEventListener('DOMContentLoaded', function () {
+        // open
+        const burger = document.querySelectorAll('.navbar-burger');
+        const menu = document.querySelectorAll('.navbar-menu');
+
+        if (burger.length && menu.length) {
+            for (var i = 0; i < burger.length; i++) {
+                burger[i].addEventListener('click', function () {
+                    for (var j = 0; j < menu.length; j++) {
+                        menu[j].classList.toggle('hidden');
+                    }
+                });
+            }
+        }
+
+        // close
+        const close = document.querySelectorAll('.navbar-close');
+        const backdrop = document.querySelectorAll('.navbar-backdrop');
+
+        if (close.length) {
+            for (var i = 0; i < close.length; i++) {
+                close[i].addEventListener('click', function () {
+                    for (var j = 0; j < menu.length; j++) {
+                        menu[j].classList.toggle('hidden');
+                    }
+                });
+            }
+        }
+
+        if (backdrop.length) {
+            for (var i = 0; i < backdrop.length; i++) {
+                backdrop[i].addEventListener('click', function () {
+                    for (var j = 0; j < menu.length; j++) {
+                        menu[j].classList.toggle('hidden');
+                    }
+                });
+            }
+        }
+    });
+</script>
+
+<section class="home">
+    <img decoding="async" class="img-slide active"
+         src= "/images/food1.png" />
+    <img decoding="async" class="img-slide"
+         src="/images/house1.png"/>
+    <img decoding="async" class="img-slide"
+         src="/images/enviroment1.png"  alt=""/>
+    <img class="img-slide" src="https://th.bing.com/th/id/R.d17a3ebebd7f56e1829b61020a9f70f3?rik=MUpVJNK%2bNTV4xg&riu=http%3a%2f%2fupload.wikimedia.org%2fwikipedia%2fcommons%2f2%2f2d%2fAfrican_Pygmy_Goat_005.jpg&ehk=YgwFn3sm1ptZAKzTd49fJVzAGY7T0NRKIRjIQc4BNBQ%3d&risl=&pid=ImgRaw&r=0" ></img>
+    <img decoding="async" class="img-slide" src="https://img.hobbyfarms.com/wp-content/uploads/03100803/Nigerian-Dwarf_Trisha-M-Shears_Wikimedia.jpg" ></img>
+    <div class="content active">
+        <p class="text-6xl font-extrabold text-yellow-500 ">Discover Culinary Bliss<br><span>Where Every Bite Tells a Story</span></p>
+        <p>Indulge in a gastronomic adventure that transcends ordinary dining. Our restaurant is a canvas of flavors, where each dish narrates a tale of passion, creativity, and, above all, deliciousness. Join us in savoring moments and creating memories, one delightful bite at a time.</p>
+        <a href="#">Explore Menu</a>
+    </div>
+    <div class="content">
+        <p class="text-6xl font-extrabold text-yellow-500 ">Your Haven of Elegance<br><span>Distinctive Stays in Serenity</span></p>
+        <p>Experience accommodation like never before. Our elegant retreat is a sanctuary of unique charm nestled in a tranquil setting. Immerse yourself in the serenity that surrounds, where every moment is crafted for comfort, style, and a touch of the extraordinary. Your stay with us promises unparalleled elegance and a truly distinctive escape.</p>
+        <a href="#">Book Your Stay</a>
+
+    </div>
+    <div class="content">
+        <p class="text-6xl font-extrabold text-yellow-500">Breathtaking Serenity<br><span>Cool Air in Nature's Embrace</span></p>
+        <p>Indulge in nature's embrace with cool, pure air that invites serenity. Immerse yourself in the tranquility of our surroundings, where every breath is an invitation to unwind. Explore a haven where the enchantment of nature meets a blissful, serene atmosphere.</p>
+
+        <a href="#">Read More</a>
+    </div>
+    <div class="content">
+        <h1>NASA ASTRONAUTS.<br><span>THE MOON</span></h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna anime. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut farhan ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum daily web design nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <a href="#">Read More</a>
+    </div>
+    <div class="content">
+        <h1>Space Travel.<br><span>Rocket</span></h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna anime. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut farhan ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum daily web design nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <a href="#">Read More</a>
+    </div>
+    <div class="media-icons">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+    </div>
+    <div class="slider-navigation">
+        <div class="nav-btn active"></div>
+        <div class="nav-btn"></div>
+        <div class="nav-btn"></div>
+        <div class="nav-btn"></div>
+        <div class="nav-btn"></div>
+    </div>
+</section>
+
+
+
+
+    <!-- component -->
+    <section class="py-20 bg-white">
+        <div class="flex flex-col px-8 mx-auto space-y-12 w-full xl:px-12 space-x-2.5">
+            <div class="relative animate__animated animate__fadeInUp">
+                <h2 class="w-full text-3xl font-bold text-center sm:text-4xl md:text-5xl"> Level Up Your Designs</h2>
+                <p class="w-full py-8 mx-auto -mt-2 text-lg text-center text-gray-700 intro sm:max-w-3xl animate__animated animate__fadeInUp animate__delay-1s">Add some nice touches to your interface with our latest designs, components, and templates. We've crafted a beautiful user experience that your visitors will love. </p>
+            </div>
+            <div class="flex flex-col mb-8 sm:flex-row animate__animated animate__fadeInUp animate__delay-2s">
+                <div class="flex items-center mb-8 sm:w-1/2 md:w-5/12 sm:order-last">
+                    <div class="slider-container">
+                        <img class="rounded-lg shadow-xl" src="https://cdn.devdojo.com/images/december2020/dashboard-011.png" alt="">
+                        <img class="rounded-lg shadow-xl" src="https://cdn.devdojo.com/images/december2020/dashboard-04.png" alt="">
+                        <img class="rounded-lg shadow-xl" src="https://cdn.devdojo.com/images/december2020/dashboard-03.png" alt="">
+                    </div>
+                </div>
+                <div class="flex flex-col justify-center mt-5 mb-8 md:mt-0 sm:w-1/2 md:w-7/12 sm:pr-16">
+                    <p class="mb-2 text-sm font-semibold leading-none text-left text-indigo-600 uppercase animate__animated animate__fadeInLeft animate__delay-3s">Drag-n-drop design</p>
+                    <h3 class="mt-2 text-2xl sm:text-left md:text-4xl animate__animated animate__fadeInLeft animate__delay-4s">Design Made Easy</h3>
+                    <p class="mt-5 text-lg text-gray-700 text md:text-left animate__animated animate__fadeInLeft animate__delay-5s">Crafting your user experience has never been easier, with our intuitive drag'n drop interface you will be creating beautiful designs in no time.</p>
+                </div>
+            </div>
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    const sliderContainer = document.querySelector('.slider-container');
+                    const images = document.querySelectorAll('.slider-container img');
+                    let index = 0;
+
+                    function showImage() {
+                        images.forEach(image => {
+                            image.style.display = 'none';
+                        });
+
+                        images[index].style.display = 'block';
+                        index = (index + 1) % images.length;
+                    }
+
+                    setInterval(showImage, 3000);
+                });
+            </script>
+            <div class="flex flex-col mb-8 animated fadeIn sm:flex-row">
+                <div class="flex items-center mb-8 sm:w-1/2 md:w-5/12">
+                    <img class="rounded-lg shadow-xl" src="https://cdn.devdojo.com/images/december2020/dashboard-04.png" alt="">
+                </div>
+                <div class="flex flex-col justify-center mt-5 mb-8 md:mt-0 sm:w-1/2 md:w-7/12 sm:pl-16">
+                    <p class="mb-2 text-sm font-semibold leading-none text-left text-indigo-600 uppercase">know your data</p>
+                    <h3 class="mt-2 text-2xl sm:text-left md:text-4xl">Optimized For Conversions</h3>
+                    <p class="mt-5 text-lg text-gray-700 text md:text-left">Backed by data, these templates have been crafted for ultimate optimization. Now, converting your visitors into customers is easier than ever before.</p>
+                </div>
+            </div>
+            <div class="flex flex-col mb-8 sm:flex-row animate__animated animate__fadeInUp animate__delay-2s">
+                <div class="flex items-center mb-8 sm:w-1/2 md:w-5/12 sm:order-last">
+                    <img class="rounded-lg shadow-xl" src="https://cdn.devdojo.com/images/december2020/dashboard-011.png" alt="">
+                </div>
+                <div class="flex flex-col justify-center mt-5 mb-8 md:mt-0 sm:w-1/2 md:w-7/12 sm:pr-16">
+                    <p class="mb-2 text-sm font-semibold leading-none text-left text-indigo-600 uppercase animate__animated animate__fadeInLeft animate__delay-3s">Drag-n-drop design</p>
+                    <h3 class="mt-2 text-2xl sm:text-left md:text-4xl animate__animated animate__fadeInLeft animate__delay-4s">Design Made Easy</h3>
+                    <p class="mt-5 text-lg text-gray-700 text md:text-left animate__animated animate__fadeInLeft animate__delay-5s">Crafting your user experience has never been easier, with our intuitive drag'n drop interface you will be creating beautiful designs in no time.</p>
+                </div>
+            </div>
+
+            <!-- Repeat the structure for other sections -->
+            <!-- Section 2 -->
+            <div class="relative animate__animated animate__fadeInUp animate__delay-6s">
+                <h2 class="w-full text-3xl font-bold text-center sm:text-4xl md:text-5xl"> Another Section Heading</h2>
+                <p class="w-full py-8 mx-auto -mt-2 text-lg text-center text-gray-700 intro sm:max-w-3xl animate__animated animate__fadeInUp animate__delay-7s">Your section description goes here.</p>
+            </div>
+            <div class="flex flex-col mb-8 animated fadeIn sm:flex-row">
+                <div class="flex items-center mb-8 sm:w-1/2 md:w-5/12">
+                    <img class="rounded-lg shadow-xl" src="https://cdn.devdojo.com/images/december2020/dashboard-04.png" alt="">
+                </div>
+                <div class="flex flex-col justify-center mt-5 mb-8 md:mt-0 sm:w-1/2 md:w-7/12 sm:pl-16">
+                    <p class="mb-2 text-sm font-semibold leading-none text-left text-indigo-600 uppercase">know your data</p>
+                    <h3 class="mt-2 text-2xl sm:text-left md:text-4xl">Optimized For Conversions</h3>
+                    <p class="mt-5 text-lg text-gray-700 text md:text-left">Backed by data, these templates have been crafted for ultimate optimization. Now, converting your visitors into customers is easier than ever before.</p>
+                </div>
+            </div>
+            <div class="flex flex-col mb-8 animated fadeIn sm:flex-row">
+                <div class="flex items-center mb-8 sm:w-1/2 md:w-5/12">
+                    <img class="rounded-lg shadow-xl" src="https://cdn.devdojo.com/images/december2020/dashboard-04.png" alt="">
+                </div>
+                <div class="flex flex-col justify-center mt-5 mb-8 md:mt-0 sm:w-1/2 md:w-7/12 sm:pl-16">
+                    <p class="mb-2 text-sm font-semibold leading-none text-left text-indigo-600 uppercase">know your data</p>
+                    <h3 class="mt-2 text-2xl sm:text-left md:text-4xl">Optimized For Conversions</h3>
+                    <p class="mt-5 text-lg text-gray-700 text md:text-left">Backed by data, these templates have been crafted for ultimate optimization. Now, converting your visitors into customers is easier than ever before.</p>
+                </div>
+            </div>
+            <div class="flex flex-col mb-8 sm:flex-row animate__animated animate__fadeInUp animate__delay-8s">
+
+                <div class="flex flex-col justify-center mt-5 mb-8 md:mt-0 sm:w-1/2 md:w-7/12 sm:pl-16">
+                    <p class="mb-2 text-sm font-semibold leading-none text-left text-indigo-600 uppercase animate__animated animate__fadeInRight animate__delay-9s">Know your data</p>
+                    <h3 class="mt-2 text-2xl sm:text-left md:text-4xl animate__animated animate__fadeInRight animate__delay-10s">Optimized For Conversions</h3>
+                    <p class="mt-5 text-lg text-gray-700 text md:text-left animate__animated animate__fadeInRight animate__delay-11s">Backed by data, these templates have been crafted for ultimate optimization. Now, converting your visitors into customers is easier than ever before.</p>
+                </div>
+                <div class="flex items-center mb-8 sm:w-1/2 md:w-5/12">
+                    <img class="rounded-lg shadow-xl" src="https://cdn.devdojo.com/images/december2020/dashboard-04.png" alt="">
+                </div>
+            </div>
+
+            <!-- Repeat this structure for additional sections -->
+            <div class="flex flex-col mb-8 animated fadeIn sm:flex-row">
+                <div class="flex items-center mb-8 sm:w-1/2 md:w-5/12">
+                    <img class="rounded-lg shadow-xl" src="https://cdn.devdojo.com/images/december2020/dashboard-04.png" alt="">
+                </div>
+                <div class="flex flex-col justify-center mt-5 mb-8 md:mt-0 sm:w-1/2 md:w-7/12 sm:pl-16">
+                    <p class="mb-2 text-sm font-semibold leading-none text-left text-indigo-600 uppercase">know your data</p>
+                    <h3 class="mt-2 text-2xl sm:text-left md:text-4xl">Optimized For Conversions</h3>
+                    <p class="mt-5 text-lg text-gray-700 text md:text-left">Backed by data, these templates have been crafted for ultimate optimization. Now, converting your visitors into customers is easier than ever before.</p>
+                </div>
+            </div>
+            <div class="flex flex-col mb-8 animated fadeIn sm:flex-row">
+
+                <div class="flex flex-col justify-center mt-5 mb-8 md:mt-0 sm:w-1/2 md:w-7/12 sm:pl-16">
+                    <p class="mb-2 text-sm font-semibold leading-none text-left text-indigo-600 uppercase">know your data</p>
+                    <h3 class="mt-2 text-2xl sm:text-left md:text-4xl">Optimized For Conversions</h3>
+                    <p class="mt-5 text-lg text-gray-700 text md:text-left">Backed by data, these templates have been crafted for ultimate optimization. Now, converting your visitors into customers is easier than ever before.</p>
+                </div>
+                <div class="flex items-center mb-8 sm:w-1/2 md:w-5/12">
+                    <img class="rounded-lg shadow-xl" src="https://cdn.devdojo.com/images/december2020/dashboard-04.png" alt="">
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <section class="py-20 bg-white animate__animated animated">
+        <div class="flex flex-col px-8 mx-auto space-y-12 max-w-7xl xl:px-12">
+            <div class="relative">
+                <h2 class="w-full text-3xl font-bold text-center sm:text-4xl md:text-5xl"> Level Up Your Designs</h2>
+                <p class="w-full py-8 mx-auto -mt-2 text-lg text-center text-gray-700 intro sm:max-w-3xl">Add some nice touches to your interface with our latest designs, components, and templates. We've crafted a beautiful user experience that your visitors will love. </p>
+            </div>
+            <div class="flex flex-col mb-8 animated fadeIn sm:flex-row">
+                <div class="flex items-center mb-8 sm:w-1/2 md:w-5/12 sm:order-last">
+                    <img class="rounded-lg shadow-xl" src="https://cdn.devdojo.com/images/december2020/dashboard-011.png" alt="">
+                </div>
+                <div class="flex flex-col justify-center mt-5 mb-8 md:mt-0 sm:w-1/2 md:w-7/12 sm:pr-16">
+                    <p class="mb-2 text-sm font-semibold leading-none text-left text-indigo-600 uppercase">Drag-n-drop design</p>
+                    <h3 class="mt-2 text-2xl sm:text-left md:text-4xl">Design Made Easy</h3>
+                    <p class="mt-5 text-lg text-gray-700 text md:text-left">Crafting your user experience has never been easier, with our intuitive drag'n drop interface you will be creating beatiful designs in no time.</p>
+                </div>
+            </div>
+            <div class="flex flex-col mb-8 animated fadeIn sm:flex-row">
+                <div class="flex items-center mb-8 sm:w-1/2 md:w-5/12">
+                    <img class="rounded-lg shadow-xl" src="https://cdn.devdojo.com/images/december2020/dashboard-04.png" alt="">
+                </div>
+                <div class="flex flex-col justify-center mt-5 mb-8 md:mt-0 sm:w-1/2 md:w-7/12 sm:pl-16">
+                    <p class="mb-2 text-sm font-semibold leading-none text-left text-indigo-600 uppercase">know your data</p>
+                    <h3 class="mt-2 text-2xl sm:text-left md:text-4xl">Optimized For Conversions</h3>
+                    <p class="mt-5 text-lg text-gray-700 text md:text-left">Backed by data, these templates have been crafted for ultimate optimization. Now, converting your visitors into customers is easier than ever before.</p>
+                </div>
+            </div>
+            <div class="flex flex-col mb-8 animated fadeIn sm:flex-row">
+                <div class="flex items-center mb-8 sm:w-1/2 md:w-5/12 sm:order-last">
+                    <img class="rounded-lg shadow-xl" src="https://cdn.devdojo.com/images/december2020/dashboard-011.png" alt="">
+                </div>
+                <div class="flex flex-col justify-center mt-5 mb-8 md:mt-0 sm:w-1/2 md:w-7/12 sm:pr-16">
+                    <p class="mb-2 text-sm font-semibold leading-none text-left text-indigo-600 uppercase">Drag-n-drop design</p>
+                    <h3 class="mt-2 text-2xl sm:text-left md:text-4xl">Design Made Easy</h3>
+                    <p class="mt-5 text-lg text-gray-700 text md:text-left">Crafting your user experience has never been easier, with our intuitive drag'n drop interface you will be creating beatiful designs in no time.</p>
+                </div>
+            </div>
+            <div class="flex flex-col mb-8 animated fadeIn sm:flex-row">
+                <div class="flex items-center mb-8 sm:w-1/2 md:w-5/12 sm:order-last">
+                    <img class="rounded-lg shadow-xl" src="https://cdn.devdojo.com/images/december2020/dashboard-03.png" alt="">
+                </div>
+                <div class="flex flex-col justify-center mt-5 mb-8 md:mt-0 sm:w-1/2 md:w-7/12 sm:pr-16">
+                    <p class="mb-2 text-sm font-semibold leading-none text-left text-indigo-600 uppercase">Easy to customize</p>
+                    <h3 class="mt-2 text-2xl sm:text-left md:text-4xl">Make It Your Own</h3>
+                    <p class="mt-5 text-lg text-gray-700 text md:text-left">All templates and components are fully customizable. You can use these templates to tell your personal story and convey your message.</p>
+                </div>
+            </div>
+            <div class="flex flex-col mb-8 animated fadeIn sm:flex-row">
+                <div class="flex items-center mb-8 sm:w-1/2 md:w-5/12 sm:order-last">
+                    <img class="rounded-lg shadow-xl" src="https://cdn.devdojo.com/images/december2020/dashboard-011.png" alt="">
+                </div>
+                <div class="flex flex-col justify-center mt-5 mb-8 md:mt-0 sm:w-1/2 md:w-7/12 sm:pr-16">
+                    <p class="mb-2 text-sm font-semibold leading-none text-left text-indigo-600 uppercase">Drag-n-drop design</p>
+                    <h3 class="mt-2 text-2xl sm:text-left md:text-4xl">Design Made Easy</h3>
+                    <p class="mt-5 text-lg text-gray-700 text md:text-left">Crafting your user experience has never been easier, with our intuitive drag'n drop interface you will be creating beatiful designs in no time.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const sections = document.querySelectorAll('.animate__animated');
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate__animated', 'animate__fadeIn');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const sections = document.querySelectorAll('.animated');
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate__animated', 'animate__fadeIn');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+
+
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const btns = document.querySelectorAll(".nav-btn");
+        const slides = document.querySelectorAll(".img-slide");
+        const contents = document.querySelectorAll(".content");
+
+        let currentIndex = 0;
+
+        function updateSlide() {
+            btns.forEach((btn) => {
+                btn.classList.remove("active");
+            });
+
+            slides.forEach((slide) => {
+                slide.classList.remove("active");
+            });
+
+            contents.forEach((content) => {
+                content.classList.remove("active");
+            });
+
+            btns[currentIndex].classList.add("active");
+            slides[currentIndex].classList.add("active");
+            contents[currentIndex].classList.add("active");
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % slides.length;
+            updateSlide();
+        }
+
+        function autoSlide() {
+            setInterval(() => {
+                nextSlide();
+            }, 10000); // Slide every 5 seconds
+        }
+
+        // Start auto sliding
+        autoSlide();
+
+        btns.forEach((btn, i) => {
+            btn.addEventListener("click", () => {
+                currentIndex = i;
+                updateSlide();
+            });
+        });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const sections = document.querySelectorAll('.animated');
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate__animated', 'animate__fadeIn', 'animate__delay-1s, animate__slow');
+                    // Add your desired animation classes
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+    });
+</script>
+
+
+</body>
+</html>

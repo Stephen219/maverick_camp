@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <title>Hotel Reservation Form</title>
+</head>
+
+<<body class="bg-gray-100 p-8" style="background-image: url('/images/food1.png');">
+<div class="min-h-screen flex items-center justify-center">
+    <div class="max-w-[900px] w-3/4 bg-white p-8 rounded-md shadow-md mt-5">
+        <img src="/images/Logo_Main.png" alt="logo" class="w-32 h-32 mx-auto mb-5 rounded-full border border-gray-300 shadow-md" />
+
+        <h1 class="text-3xl font-bold text-center text-gray-900">Hotel Reservation Form</h1>
+
+        <form th:action="@{/book}" method="post">
+        <div class="flex space-x-5">
+            <div class="mb-4">
+                <label for="first_name" class="block text-gray-700 font-bold mb-2">First Name:</label>
+                <input type="text" id="first_name" name="first_name" class="w-full p-2 border rounded-md"
+                       th:field="${booking.firstName}"/>
+                <div th:if="${#fields.hasErrors('booking.firstName')}" th:errors="*{booking.firstName}"
+                     class="text-red-500"></div>
+            </div>
+
+
+            <div class="mb-4">
+                <label for="first_name" class="block text-gray-700 font-bold mb-2">Last Name:</label>
+                <input type="text" id="lastname" name="last_name" class="w-full p-2 border rounded-md"
+                       th:field="${booking.lastName}"/>
+                <div th:if="${#fields.hasErrors('booking.lastName')}" th:errors="*{booking.lastName}"
+                     class="text-red-500"></div>
+            </div>
+
+        </div>
+
+        <div class="mb-4">
+            <label for="email" class="block text-gray-700 font-bold mb-2">Email:</label>
+            <input type="email" id="email" name="first_name" class="w-full p-2 border rounded-md"
+                   th:field="${booking.email}"/>
+            <div th:if="${#fields.hasErrors('booking.lastName')}" th:errors="*{booking.email}"
+                 class="text-red-500"></div>
+        </div>
+
+        <div class="mb-4">
+            <label for="countryDropdown"
+                   class="mb-2 text-sm font-medium text-gray-900 dark:text-white">Country:</label>
+            <select name="country" id="countryDropdown" th:field="${booking.country}"
+                    class="w-full p-2 text-gray-900 bg-gray-50 rounded-e-lg border-s-0 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500">
+
+            </select>
+            <div th:if="${#fields.hasErrors('booking.country')}" th:errors="*{booking.country}"
+                 class="text-red-500"></div>
+        </div>
+        cdgcdhhjdff
+
+        <div class="flex items-center space-x-2">
+            <label for="countryCodeDropdown"></label>
+            <select name="countryCode" id="countryCodeDropdown"
+                    class="p-2 text-gray-900 bg-gray-50 rounded-e-lg border-s-0 border border-gray-300
+                    focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400
+                    dark:text-white dark:focus:border-blue-500"
+                    required th:field="${booking.countryCode}"
+            >
+
+
+        </select>
+
+            <label for="phone-input"
+                   class="mb-2 ml-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Phone
+                number:</label>
+            <div class="relative w-full">
+                <input type="text" id="phone-input"
+                       class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-0 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
+
+                       placeholder="e.g., 123-456-7890" th:field="${booking.phone}"
+                       required>
+
+            </div>
+
+        </div>
+        <div th:if="${#fields.hasErrors('booking.phone')}" th:errors="*{booking.phone}"
+             class="text-red-500"></div>
+
+        <script>
+            async function fetchCountryData() {
+                try {
+                    const response = await fetch('https://restcountries.com/v2/all');
+                    const data = await response.json();
+                    return data;
+                } catch (error) {
+                    console.error('Error fetching country data:', error);
+                    return [];
+                }
+            }
+
+            async function createCountryCodeMap() {
+                const countryData = await fetchCountryData();
+                const countryCodes = {};
+
+                countryData.forEach(country => {
+                    if (country.callingCodes.length > 0) {
+                        countryCodes[country.name] = {
+                            country: country.name,
+                            code: `+${country.callingCodes[0]}`
+                        };
+                    }
+                });
+
+                return countryCodes;
+            }
+
+
+            async function populateDropdowns() {
+                const countryDropdown = document.getElementById('countryDropdown');
+                const countryCodeDropdown = document.getElementById('countryCodeDropdown');
+                const phoneInput = document.getElementById('phone-input');
+
+                // Create a key-value pair of country and calling code
+                const countryCodes = await createCountryCodeMap();
+
+                // Populate country dropdown
+                // Clear existing options
+                countryDropdown.innerHTML = '';
+
+                // Add default option
+                const defaultOption = document.createElement('option');
+                defaultOption.value = '';
+                defaultOption.text = 'Select a country';
+                countryDropdown.appendChild(defaultOption);
+
+                // Add country options
+                Object.entries(countryCodes).forEach(([country, {code}]) => {
+                    const countryOption = document.createElement('option');
+                    countryOption.value = country;
+                    countryOption.text = country;
+                    countryDropdown.appendChild(countryOption);
+                });
+
+                // Add event listener to update fields on country selection
+                countryDropdown.addEventListener('change', function () {
+                    const selectedIndex = this.selectedIndex;
+                    const selectedCountry = this.options[selectedIndex].value;
+
+                    // Update the country code dropdown with the selected country's code
+                    countryCodeDropdown.value = countryCodes[selectedCountry].code;
+
+                    // Update the phone input field with a placeholder example for the selected country code
+                    phoneInput.placeholder = `e.g., ${countryCodes[selectedCountry].code}-123-456-7890`;
+                });
+
+                countryCodeDropdown.innerHTML = '';
+
+                // Add default option
+                const defaultCodeOption = document.createElement('option');
+                defaultCodeOption.value = '';
+                defaultCodeOption.text = 'code';
+                countryCodeDropdown.appendChild(defaultCodeOption);
+
+                // Add country code options
+                Object.entries(countryCodes).forEach(([country, {code}]) => {
+                    const codeOption = document.createElement('option');
+                    codeOption.value = code;
+                    codeOption.text = code;
+                    countryCodeDropdown.appendChild(codeOption);
+                });
+            }
+
+            populateDropdowns();
+        </script>
+
+        <div class="lg:flex space-x-5 w-full">
+            <div class="mb-4">
+                <label for="checkin"
+                       class="block text-gray-700 font-bold mb-2">Check-in:</label>
+                <input type="date" id="checkin" name="check_in" th:field="${booking.checkin}"
+                       class="w-full p-2 border rounded-md">
+                <div th:if="${#fields.hasErrors('booking.checkin')}" th:errors="*{booking.checkin}"
+                     class="text-red-500"></div>
+            </div>
+
+            <div class="mb-4">
+                <label for="checkout"
+                       class="block text-gray-700 font-bold mb-2">Check-out:</label>
+                <input type="date" id="checkout" name="check_out" th:field="${booking.checkout}"
+                       class="w-full p-2 border rounded-md">
+                <div th:if="${#fields.hasErrors('booking.checkout')}" th:errors="*{booking.checkout}"
+                     class="text-red-500"></div>
+            </div>
+        </div>
+        <script>
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('checkout').min = today;
+            document.getElementById('checkin').min = today;
+        </script>
+
+        <div class="mb-4">
+            <label for="children"
+                   class="block text-gray-700 font-bold mb-2">Number of
+                Children:</label>
+            <input type="number" id="children" name="children" th:field="${booking.children}"
+                   class="w-full p-2 border rounded-md">
+            <div th:if="${#fields.hasErrors('booking.children')}" th:errors="*{booking.children}"
+                 class="text-red-500"></div>
+        </div>
+
+        <div class="mb-4">
+            <label for="room_type"
+                   class="block text-gray-700 font-bold mb-2">Room Type:</label>
+            <select id="room_type" name="room_type" th:field="${booking.room}"
+                    class="w-full p-2 border rounded-md">
+                <option value="deluxe">Deluxe</option>
+                <option value="ensuite">Ensuite</option>
+            </select>
+            <div th:if="${#fields.hasErrors('booking.room')}" th:errors="*{booking.room}" class="text-red-500"></div>
+        </div>
+
+        <div class="mb-4">
+            <label for="meal_plan"
+                   class="block text-gray-700 font-bold mb-2">Meal Plan:</label>
+            <input type="text" id="meal_plan" name="meal_plan" th:field="${booking.mealPlan}"
+                   class="w-full p-2 border rounded-md">
+            <div th:if="${#fields.hasErrors('booking.mealPlan')}" th:errors="*{booking.mealPlan}"
+                 class="text-red-500"></div>
+        </div>
+
+        <div class="mb-4">
+            <label for="adults"
+                   class="block text-gray-700 font-bold mb-2">Number of
+                Adults:</label>
+            <input type="number" id="adults" name="adults" th:field="${booking.adults}"
+                   class="w-full p-2 border rounded-md">
+            <div th:if="${#fields.hasErrors('booking.adults')}" th:errors="*{booking.adults}"
+                 class="text-red-500"></div>
+        </div>
+        <div class="mb-4">
+            <label for="message"
+                   class="block text-gray-700 font-bold mb-2">Message:</label>
+            <input type="text" id="message" name="meal_plan" th:field="${booking.message}"
+                   class="w-full p-2 border rounded-md">
+            <div th:if="${#fields.hasErrors('booking.message')}" th:errors="*{booking.message}"
+                 class="text-red-500"></div>
+        </div>
+
+
+        <div class="mb-4">
+            <button type="button" id="add_room_btn"
+                    class="bg-blue-500 text-white px-4 py-2 rounded-md">Add
+                a Room
+            </button>
+        </div>
+
+
+        <div id="room_parameters_template" class="hidden">
+            <div class="mb-4">
+                <label for="room_type"
+                       class="block text-gray-700 font-bold mb-2">Room
+                    Type:</label>
+                <select class="w-full p-2 border rounded-md"
+                        name="room_type[]">
+                    <option value="deluxe">Deluxe</option>
+                    <option value="ensuite">Ensuite</option>
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label for="adults"
+                       class="block text-gray-700 font-bold mb-2">Number of
+                    Adults:</label>
+                <input type="number" name="adults[]"
+                       class="w-full p-2 border rounded-md">
+            </div>
+
+            <div class="mb-4">
+                <label for="children"
+                       class="block text-gray-700 font-bold mb-2">Number of
+                    Children:</label>
+                <input type="number" name="children[]"
+                       class="w-full p-2 border rounded-md">
+            </div>
+
+            <div class="mb-4">
+                <label for="meal_plan"
+                       class="block text-gray-700 font-bold mb-2">Meal
+                    Plan:</label>
+                <input type="text" name="meal_plan[]"
+                       class="w-full p-2 border rounded-md">
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div>
+            <button type="submit"
+                    class="bg-green-500 text-white px-4 py-2 rounded-md">Submit
+            </button>
+        </div>
+
+    </form>
+
+    <script>
+        // JavaScript logic for showing/hiding room parameters and adding rooms
+        let roomsAdded = 0;
+
+        document.getElementById('add_room_btn').addEventListener('click', function () {
+            if (roomsAdded < 3) {
+                // Create a new room parameters section
+                const newRoomParameters = document.getElementById('room_parameters_template').cloneNode(true);
+
+                // Remove the 'hidden' class from the new section
+                newRoomParameters.classList.remove('hidden');
+
+                // Generate a unique ID for the new section
+                const newId = 'room_parameters_' + (roomsAdded + 1);
+                newRoomParameters.id = newId;
+
+                // Append the new section to the form
+                document.getElementById('reservationForm').appendChild(newRoomParameters);
+
+                roomsAdded++;
+
+                // Disable the button after reaching the maximum limit
+                if (roomsAdded === 3) {
+                    document.getElementById('add_room_btn').disabled = true;
+                }
+            }
+        });
+    </script>
+
+</div>
+
+</body>
+
+</html>

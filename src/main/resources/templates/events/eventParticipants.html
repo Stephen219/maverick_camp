@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Participants</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+
+</head>
+<body>
+<div th:replace="fragment :: header"></div>
+
+<div class="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
+    <div class="relative py-3 sm:max-w-xl sm:mx-auto">
+        <div class="relative px-4 py-10 bg-white mx-8 md:mx-0 shadow rounded-3xl sm:p-10">
+            <div class="max-w-md mx-auto">
+                <div class="flex items-center space-x-5">
+
+                    <div class="block pl-2 font-semibold text-xl self-start text-gray-700" th:object="${event}">
+                        <h2 class="leading-relaxed font-light" style="word-break: break-all;">
+                            Itenary registration for <span class="font-semibold" th:text="${event.title}"></span> held on <span class="font-semibold" th:text="${date}"></span>
+                        </h2>
+                        <p class="text-sm text-gray-500 font-normal leading-relaxed">
+                            Fill out the form after making the payment, as messages will be reviewed.
+                        </p>
+                    </div>
+
+                </div>
+                <form class="divide-y divide-gray-200" th:action="@{/events/{id}/interested(id=${event.id})}" method="post">
+                    <div class="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
+                        <div class="flex flex-col">
+                            <label class="leading-loose">Your name</label>
+                            <input name="attendee" type="text" class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Christina Bennet" required>
+                        </div>
+                        <div class="flex flex-col">
+                            <label class="leading-loose">Your phone Number</label>
+                            <input type="tel" name="phone" class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="+25474636363" required>
+                        </div>
+                        <div class="flex flex-col">
+                            <label class="leading-loose">Mpesa Code</label>
+                            <input type="text" name="code" class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="SYNEKF333" required>
+                        </div>
+                        <div class="flex flex-col">
+                            <label class="leading-loose">Name on the Message</label>
+                            <input type="text"name="message_name" class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Christina Bennet" required>
+                        </div>
+
+                    </div>
+                    <div class="pt-4 flex items-center space-x-4">
+                        <button type="submit" class="bg-blue-500 flex justify-center items-center w-full text-white px-4 py-3 rounded-md focus:outline-none">Add Name</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragment :: footer"></div>
+
+</body>
+</html>
