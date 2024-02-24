@@ -1,13 +1,9 @@
 package ac.ke.rondavels.marverick.blogs;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 
@@ -41,6 +37,11 @@ public class BlogService  implements BlogServiceInter{
     public List<Comment> getCommentsByBlogId(Long blogId) {
         return blogRepoInterface.getCommentsByBlogId( blogId);
     }
+
+    public void updateBlog(Blog blog){
+        blogRepoInterface.updateBlog(blog);
+
     }
+}
 
 

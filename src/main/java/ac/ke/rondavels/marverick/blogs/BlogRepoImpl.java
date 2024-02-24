@@ -77,7 +77,7 @@ public class BlogRepoImpl implements BlogRepoInterface {
     }
 
     public void deleteBlogById(Long id) {
-        String sql = "DELETE FROM blogs WHERE id = ?";
+        String sql = "UPDATE blogs SET is_showing = true WHERE id = ?";
         jdbcTemplate.update(sql, id);
     }
 

@@ -24,7 +24,6 @@ public class Comment {
         this.createdAt = formatDateTime(createdAt);
     }
 
-    // Method to format LocalDateTime to String
     private String formatDateTime(LocalDateTime dateTime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd, yyyy h:mma");
         return dateTime.format(formatter);

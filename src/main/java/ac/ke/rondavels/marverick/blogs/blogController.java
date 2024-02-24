@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -35,14 +36,21 @@ public class blogController {
     }
 
     @PostMapping("/add_blog")
-    public ModelAndView addBlog(@Valid Blog blog, BindingResult bindingResult){
+    public ModelAndView addBlog(@Valid Blog blog, BindingResult bindingResult,@RequestParam(required = false) Long id){
         if (bindingResult.hasErrors()) {
             ModelAndView mv = new ModelAndView("blogs/addBlog");
             mv.addObject("blog", blog);
             return mv;
         }
-        blogServiceInter.saveBlog(blog);
-        return new ModelAndView("redirect:/all_blogs");
+        if (id != null) {
+            blog.setId(id);
+            blogServiceInter.updateBlog(blog);
+        } else {
+            blogServiceInter.saveBlog(blog);
+
+        }
+        return new ModelAndView("redirect:/blog/" + blog.getId());
+
     }
 
     @GetMapping("/all_blogs")
@@ -97,4 +105,19 @@ public class blogController {
         mv.addObject("blog", blog);
         return mv;
     }
+
+
+    @PostMapping("/delete_blog/{id}")
+    public ModelAndView deleteBlog(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try {
+            blogServiceInter.deleteBlogById(id);
+            redirectAttributes.addFlashAttribute("message", "Blog deleted successfully");
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute("error", "Blog could not be deleted");
+            return new ModelAndView("redirect:/all_blogs");
+        }
+        return new ModelAndView("redirect:/all_blogs");
+    }
+
+
 }

@@ -537,19 +537,16 @@
             </div>
         </div>
     </div>
+    </div>
 </section>
 
 <!-- component -->
 <section class="py-10 bg-white">
     <div class="flex flex-col px-8 mx-auto space-y-12  xl:px-12">
-
-
-
         <div class="relative animate__animated animate__fadeInUp animate__delay-6s">
             <h2 class="w-full text-3xl font-bold text-center sm:text-4xl md:text-5xl"> High Standard Accommodation </h2>
             <p class="w-full py-8 mx-auto -mt-2 text-lg text-center text-gray-700 intro sm:max-w-3xl animate__animated animate__fadeInUp animate__delay-7s">Experience a stay that goes beyond comfort, with accommodation designed for cultural immersion, serene tranquility, fully furnished beddings, and high standards of housekeeping.</p>
         </div>
-
         <!-- Section 1 -->
         <div class="flex flex-col mb-8 animated fadeIn sm:flex-row">
             <div class="flex items-center mb-8 sm:w-1/2 md:w-5/12">
@@ -905,40 +902,27 @@
         }
     });
 
-
-
-
-
-
-
     document.addEventListener('DOMContentLoaded', function () {
         const navbarMenu = document.querySelector('.navbar-menu');
         const navbarBackdrop = document.querySelector('.navbar-backdrop');
         const navbarBurger = document.querySelector('.navbar-burger');
         const navbarClose = document.querySelector('.navbar-close');
-
-        // Open the mobile menu
         navbarBurger.addEventListener('click', function () {
             navbarMenu.classList.add('visible');
             navbarBackdrop.classList.add('visible');
-            document.body.style.overflow = 'hidden'; // Prevent scrolling
+            document.body.style.overflow = 'hidden'; //Prevent scrolling
         });
-
-        // Close the mobile menu
         navbarClose.addEventListener('click', function () {
             navbarMenu.classList.remove('visible');
             navbarBackdrop.classList.remove('visible');
             document.body.style.overflow = ''; // Allow scrolling
         });
-
-        // Close the mobile menu when clicking the backdrop
         navbarBackdrop.addEventListener('click', function () {
             navbarMenu.classList.remove('visible');
             navbarBackdrop.classList.remove('visible');
             document.body.style.overflow = ''; // Allow scrolling
         });
     });
-
 </script>
 
 

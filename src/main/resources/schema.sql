@@ -108,3 +108,4 @@ CREATE TABLE IF NOT EXISTS Event_Participants(
 
 -- adding is showing in events with default true
 ALTER TABLE events ADD COLUMN is_showing BOOLEAN DEFAULT TRUE;
+ALTER TABLE blogs ADD COLUMN is_showing BOOLEAN DEFAULT TRUE;

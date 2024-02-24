@@ -17,4 +17,6 @@ public interface BlogRepoInterface {
     public void saveComments (Blog blog, String comment);
 
     public List<Comment> getCommentsByBlogId(Long blogId);
+
+
 }

@@ -121,45 +121,29 @@
                 // Create a key-value pair of country and calling code
                 const countryCodes = await createCountryCodeMap();
 
-                // Populate country dropdown
-                // Clear existing options
                 countryDropdown.innerHTML = '';
-
-                // Add default option
                 const defaultOption = document.createElement('option');
                 defaultOption.value = '';
                 defaultOption.text = 'Select a country';
                 countryDropdown.appendChild(defaultOption);
-
-                // Add country options
                 Object.entries(countryCodes).forEach(([country, {code}]) => {
                     const countryOption = document.createElement('option');
                     countryOption.value = country;
                     countryOption.text = country;
                     countryDropdown.appendChild(countryOption);
                 });
-
-                // Add event listener to update fields on country selection
                 countryDropdown.addEventListener('change', function () {
                     const selectedIndex = this.selectedIndex;
                     const selectedCountry = this.options[selectedIndex].value;
-
-                    // Update the country code dropdown with the selected country's code
                     countryCodeDropdown.value = countryCodes[selectedCountry].code;
-
-                    // Update the phone input field with a placeholder example for the selected country code
                     phoneInput.placeholder = `e.g., ${countryCodes[selectedCountry].code}-123-456-7890`;
                 });
 
                 countryCodeDropdown.innerHTML = '';
-
-                // Add default option
                 const defaultCodeOption = document.createElement('option');
                 defaultCodeOption.value = '';
                 defaultCodeOption.text = 'code';
                 countryCodeDropdown.appendChild(defaultCodeOption);
-
-                // Add country code options
                 Object.entries(countryCodes).forEach(([country, {code}]) => {
                     const codeOption = document.createElement('option');
                     codeOption.value = code;
@@ -298,37 +282,8 @@
         </div>
 
     </form>
-
-    <script>
-        // JavaScript logic for showing/hiding room parameters and adding rooms
-        let roomsAdded = 0;
-
-        document.getElementById('add_room_btn').addEventListener('click', function () {
-            if (roomsAdded < 3) {
-                // Create a new room parameters section
-                const newRoomParameters = document.getElementById('room_parameters_template').cloneNode(true);
-
-                // Remove the 'hidden' class from the new section
-                newRoomParameters.classList.remove('hidden');
-
-                // Generate a unique ID for the new section
-                const newId = 'room_parameters_' + (roomsAdded + 1);
-                newRoomParameters.id = newId;
-
-                // Append the new section to the form
-                document.getElementById('reservationForm').appendChild(newRoomParameters);
-
-                roomsAdded++;
-
-                // Disable the button after reaching the maximum limit
-                if (roomsAdded === 3) {
-                    document.getElementById('add_room_btn').disabled = true;
-                }
-            }
-        });
-    </script>
-
 </div>
+</div>`
 
 </body>
 

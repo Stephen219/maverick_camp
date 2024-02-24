@@ -781,7 +781,6 @@
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('animate__animated', 'animate__fadeIn', 'animate__delay-1s, animate__slow');
-                    // Add your desired animation classes
                     observer.unobserve(entry.target);
                 }
             });

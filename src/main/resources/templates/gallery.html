@@ -95,16 +95,12 @@
     <span class="close" onclick="closeModal()">&times;</span>
     <span class="prev" onclick="plusSlides(-1)">&#10094;</span>
     <span class="next" onclick="plusSlides(1)">&#10095;</span>
-    <img class="modal-content mt-8 pt-3" id="img01"  alt=""
-    >
+    <img class="modal-content mt-8 pt-3" id="img01"  alt="">
 </div>
 
 <div th:replace="fragment :: footer"></div>
-
-
 <script>
     var slideIndex = 0;
-
     function openModal(src) {
         var modal = document.getElementById('myModal');
         var modalImg = document.getElementById("img01");
@@ -132,6 +128,5 @@
         modalImg.src = images[slideIndex].src;
     }
 </script>
-
 </body>
 </html>
