@@ -2,68 +2,59 @@ create schema if not exists maverick;
 use maverick;
 DROP TABLE IF EXISTS bookings;
 DROP TABLE IF EXISTS rooms;
+drop table if exists Event_Participants;
 DROP TABLE IF EXISTS events;
 DROP TABLE IF EXISTS enquiries;
-
-
+Drop TABLE IF EXISTS comments;
 CREATE TABLE bookings (
-  id INT NOT NULL AUTO_INCREMENT,
-  first_name VARCHAR(255) NOT NULL,
-  last_name VARCHAR(255) NOT NULL,
-  email VARCHAR(255) NOT NULL,
+    id INT NOT NULL AUTO_INCREMENT,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
     phone VARCHAR(255) NOT NULL,
+
     country VARCHAR(255) NOT NULL,
-  room_type VARCHAR(255) NOT NULL,
-  bed_type VARCHAR(255)  default 'Single',
-  check_in_date DATE NOT NULL,
-  check_out_date DATE NOT NULL,
-  adults INT NOT NULL,
+    room_type VARCHAR(255) NOT NULL,
+    bed_type VARCHAR(255)  default 'Single',
+    check_in_date DATE NOT NULL,
+    check_out_date DATE NOT NULL,
+    adults INT NOT NULL,
     children INT NOT NULL,
-  total_price DECIMAL(10,2) NOT NULL,
+    total_price DECIMAL(10,2) NOT NULL,
     meal_plan VARCHAR(255) NOT NULL,
     comments VARCHAR(255) NOT NULL,
     status VARCHAR(255) NOT NULL,
-  PRIMARY KEY (id)
-);
+    PRIMARY KEY (id));
 DROP TABLE IF EXISTS rooms;
 CREATE TABLE rooms (
-id INT NOT NULL AUTO_INCREMENT,
-room_type VARCHAR(255) NOT NULL,
-bed_type VARCHAR(255) NOT NULL,
-number_of_rooms INT NOT NULL,
-number_of_guests INT NOT NULL,
-price DECIMAL(10,2) NOT NULL,
-PRIMARY KEY (id)
-);
+        id INT NOT NULL AUTO_INCREMENT,
+        room_type VARCHAR(255) NOT NULL,
+        bed_type VARCHAR(255) NOT NULL,
+        number_of_rooms INT NOT NULL,
+        number_of_guests INT NOT NULL,
+        price DECIMAL(10,2) NOT NULL,
+        PRIMARY KEY (id));
 drop table if exists events;
-
 CREATE  TABLE IF NOT EXISTS events (
-   id INT NOT NULL AUTO_INCREMENT,
-   title VARCHAR(255) NOT NULL,
-   start_date_time DATETIME NOT NULL,
-   end_date_time DATETIME NOT NULL,
-   itinerary Text NOT NULL,
+    id INT NOT NULL AUTO_INCREMENT,
+    title VARCHAR(255) NOT NULL,
+    start_date_time DATETIME NOT NULL,
+    end_date_time DATETIME NOT NULL,
+    itinerary LONGTEXT NOT NULL,
     image VARCHAR(255) NOT NULL,
     cost DECIMAL(10,2) NOT NULL,
     location VARCHAR(255) NOT NULL,
-
-
-   description VARCHAR(255) NOT NULL,
+    description VARCHAR(255) NOT NULL,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-   PRIMARY KEY (id)
-);
-
-
+    PRIMARY KEY (id),
+    index (title)
+    );
 create Table if NOT EXISTS enquiries(
     Id INT NOT NULL AUTO_INCREMENT,
     email VARCHAR(255) NOT NULL,
     message TEXT NOT NULL,
-    PRIMARY KEY (id)
-);
+    PRIMARY KEY (id));
 DROP TABLE IF EXISTS blogs;
-
-
 create TABLE IF NOT EXISTS blogs(
     id INT NOT NULL AUTO_INCREMENT,
     title VARCHAR(255) NOT NULL,
@@ -71,30 +62,23 @@ create TABLE IF NOT EXISTS blogs(
     description VARCHAR(255) NOT NULL,
     date_created DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     image VARCHAR(255) NOT NULL,
-
-    PRIMARY KEY (id)
-);
-
-
-Drop TABLE IF EXISTS comments;
+    PRIMARY KEY (id));
 
 create TABLE IF NOT EXISTS comments(
     id INT NOT NULL AUTO_INCREMENT,
     blog_id INT NOT NULL,
     comment LONGTEXT NOT NULL,
     date_created DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (id)
-);
+    is_showing BOOLEAN DEFAULT TRUE,
+    PRIMARY KEY (id),
+    FOREIGN KEY (blog_id) REFERENCES blogs(id) ON DELETE CASCADE ON UPDATE CASCADE);
 drop table if exists gallery;
-
 CREATE TABLE IF NOT EXISTS gallery(
     id INT NOT NULL AUTO_INCREMENT,
     image Text NOT NULL,
     PRIMARY KEY (id)
-);
-
+    );
 drop table if exists Event_Participants;
-
 CREATE TABLE IF NOT EXISTS Event_Participants(
     id INT NOT NULL AUTO_INCREMENT,
     event_id INT NOT NULL,
@@ -102,10 +86,7 @@ CREATE TABLE IF NOT EXISTS Event_Participants(
     mpesa_code VARCHAR(255) NOT NULL,
     phone_number VARCHAR(255) NOT NULL,
     message_name VARCHAR(255) NOT NULL,
-    FOREIGN KEY (event_id) REFERENCES events(id),
-    PRIMARY KEY (id)
-);
-
--- adding is showing in events with default true
+    FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+    PRIMARY KEY (id));
 ALTER TABLE events ADD COLUMN is_showing BOOLEAN DEFAULT TRUE;
 ALTER TABLE blogs ADD COLUMN is_showing BOOLEAN DEFAULT TRUE;

@@ -49,4 +49,25 @@ public class booking {
     private String status;
 
 
+
+
+
+
+    public booking(long id, String firstName, String lastName, String email, String phone, String country, LocalDate checkin, LocalDate checkout, String adults, String children, String room, String mealPlan, String message, String totalPrice, String status) {
+
+      this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phone = phone;
+        this.country = country;
+        this.checkin = checkin;
+        this.checkout = checkout;
+        this.adults = adults;
+        this.children = children;
+        this.room = room;
+        this.mealPlan = mealPlan;
+        this.message = message;
+        this.price = totalPrice;
+        this.status = status;}
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html"
-        xmlns:th="http://www.thymeleaf.org"
-        xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 
 >
 <head>
@@ -61,7 +61,35 @@
             padding: 20px;
             border-radius: 8px;
         }
+
+        .intaSendPayButton {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 16px;
+            padding: 10px 24px;
+        }
+
+        .intaSendPayButton {
+            background: #2cc1ee;
+            border-radius: 3px;
+            border: 1px solid #2cc1ee;
+            color: #fff;
+            height: 34px;
+        }
+
+        .intaSendPayButton:hover {
+            cursor: pointer;
+        }
     </style>
+
+    <script src="https://unpkg.com/intasend-inlinejs-sdk@4.0.0/build/intasend-inline.js"></script>
 </head>
 <body>
 <div th:replace="fragment :: header"></div>
@@ -86,7 +114,8 @@
                 <p class="mb-2 text-black dark:text-gray-400 text-lg font-light" th:text="${createdDate}"></p>
             </div>
         </div>
-        <div class="w-1/2 mx-auto flex justify-center items-center mb-6 space-x-3" th:if="${#authorization.expression('isAuthenticated()')}">
+        <div class="w-1/2 mx-auto flex justify-center items-center mb-6 space-x-3"
+             th:if="${#authorization.expression('isAuthenticated()')}">
             <a th:href="@{/add_event(id=${event.id})}"
                class="flex-1 px-2 py-2 text-gray-100 bg-green-700 flex items-center justify-center rounded">edit</a>
             <button onclick="openModal()"
@@ -118,7 +147,7 @@
                     <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to
                         delete this event?</h3>
 
-                    <div class="flex space-x-3" >
+                    <div class="flex space-x-3">
                         <form th:action="@{/events/{id}/delete(id=${event.id})}" method="post" id="deleteForm">
                             <button type="submit"
                                     class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
@@ -143,10 +172,12 @@
                 document.getElementById("popup-modal").style.display = "flex";
                 document.body.style.overflow = "hidden";
             }
+
             function closeModal() {
                 document.getElementById("popup-modal").style.display = "none";
                 document.body.style.overflow = "";
             }
+
             document.getElementById("confirmYes").addEventListener("click", function (event) {
                 event.preventDefault();
 
@@ -155,8 +186,7 @@
             });
 
 
-            document.querySelector("[data-modal-hide='popup-modal']").
-            addEventListener("click", function () {
+            document.querySelector("[data-modal-hide='popup-modal']").addEventListener("click", function () {
                 closeModal();
             });
         </script>
@@ -191,24 +221,30 @@
                             <td class="text-sm font-semibold pr-4">Method of Payment:</td>
                             <td>
                                 <p class="text-xs">Paybill: <span class="font-bold">46774</span></p>
-                                <p class="text-xs">Mpesa: <span class="font-bold">072336636673267</span></p>
+                                <p class="text-xs">Mpesa: <span class="font-bold">07233673267</span></p>
                             </td>
                         </tr>
                         <tr>
                             <td class="text-sm font-semibold pr-4">Cost:</td>
                             <td>
-                                <p class="text-xs">For Residents: <span class="font-bold">Ksh 3400</span></p>
+                                <p class="text-xs">For Residents: <span class="font-bold">Ksh <span
+                                        th:text="${cost}"> </span>
+                                </span></p>
                                 <p class="text-xs">For Non-Citizens: <span class="font-bold">USD 40</span></p>
                             </td>
                         </tr>
                     </table>
                 </div>
 
+
                 <a th:href="@{/events/{id}/interested(id=${event.id})}"
                    class="px-2 py-1 text-gray-100 bg-green-700 flex w-full items-center justify-center rounded">
                     <span>Click to add your name</span>
                 </a>
 
+                <button class="intaSendPayButton" data-amount=10 data-reference="event-${event.id}"
+                        data-currency="KES">Pay Now
+                </button>
                 <p class="font-light">For more information, contact the organizer on 0746673267</p>
                 <a href="mailto:.com" class="text-blue-600"> mavcamp@gmail.com</a>
 
@@ -216,8 +252,27 @@
         </div>
 
     </div>
-    <div th:replace="fragment :: footer"></div>
+
 </div>
+<div th:replace="fragment :: footer"></div>
 
 </body>
+
+
+<script>
+    new window.IntaSend({
+        publicAPIKey: "ISPubKey_test_6a2fbcf2-1599-47bb-885d-1175664af249",
+        live: false
+    })
+        .on("COMPLETE", (results) => console.log("Do something on success", results))
+        .on("FAILED", (results) => console.log("Do something on failure", results))
+        .on("IN-PROGRESS", (results) => console.log("Payment in progress status", results))
+        .on("CLOSE", (results) => console.log("Do something on close", results))
+</script>
+
+<!--<script th:inline="javascript">-->
+<!--    var cost = /*[[${cost}]]*/ 0;-->
+<!--    document.querySelector('.intaSendPayButton').setAttribute('data-amount', cost);-->
+<!--</script>-->
+
 </html>

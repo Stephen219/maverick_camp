@@ -30,6 +30,10 @@ public class bookingServiceImpl  implements bookingServiceInter{
         bookingRepoInter.saveMessage(email, message);
     }
 
+    public List<booking> findUpcomingBookings() {
+        return bookingRepoInter.findUpcomingBookings();
+    }
+
 
 
 }

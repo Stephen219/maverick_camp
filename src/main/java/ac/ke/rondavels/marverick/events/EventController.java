@@ -44,14 +44,17 @@ public class EventController {
     @GetMapping("/events/{id}")
     public ModelAndView getEvent( @PathVariable Long id){
         Event event = eventServiceInter.getEvent(id);
+        int intCost = Math.toIntExact(event.getCost());
         LocalDateTime blogDate = event.getStartDateTime();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy h:mma");
         String formattedDate = blogDate.format(formatter);
 
+
         return new ModelAndView("events/eventDetails")
+                .addObject("cost", intCost)
                 . addObject("createdDate", event.getCreatedAt().format(formatter))
-                .addObject("event", eventServiceInter
-                .getEvent(id)).addObject("formattedDate", formattedDate);
+                .addObject("event", eventServiceInter.getEvent(id)).
+                addObject("formattedDate", formattedDate);
 
 
     }

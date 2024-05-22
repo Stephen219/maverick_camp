@@ -22,20 +22,19 @@ public class bookingRepoImpl implements bookingRepoInter{
     public void setBookingMapper() {
         bookingRowMapper = (resultSet, i) -> new booking(
                 resultSet.getLong("id"),
-                resultSet.getString("firstName"),
-                resultSet.getString("lastName"),
+                resultSet.getString("first_name"),
+                resultSet.getString("last_name"),
                 resultSet.getString("email"),
                 resultSet.getString("phone"),
                 resultSet.getString("country"),
-                resultSet.getLong("countryCode"),
-                resultSet.getDate("checkin").toLocalDate(),
-                resultSet.getDate("checkout").toLocalDate(),
+                resultSet.getDate("check_in_date").toLocalDate(),
+                resultSet.getDate("check_out_date").toLocalDate(),
                 resultSet.getString("adults"),
                 resultSet.getString("children"),
-                resultSet.getString("room"),
-                resultSet.getString("mealPlan"),
-                resultSet.getString("message"),
-                resultSet.getString("price"),
+                resultSet.getString("room_type"),
+                resultSet.getString("meal_plan"),
+                resultSet.getString("comments"),
+                resultSet.getString("total_price"),
                 resultSet.getString("status")
 
         );
@@ -52,6 +51,7 @@ public class bookingRepoImpl implements bookingRepoInter{
         } catch (EmptyResultDataAccessException ex) {
             throw new RuntimeException("No bookings found");
         } catch (DataAccessException ex) {
+            ex.printStackTrace();
             throw new RuntimeException("Error while fetching bookings", ex);
         }}
 
@@ -117,6 +117,11 @@ public class bookingRepoImpl implements bookingRepoInter{
 public void saveMessage(String email, String message) {
         String sql = "INSERT INTO enquiries(email, message) VALUES(?,?)";
         jdbcTemplate.update(sql, email, message);
+    }
+
+    public List<booking> findUpcomingBookings() {
+        String sql = "SELECT * FROM bookings WHERE check_in_date >= CURRENT_DATE";
+        return jdbcTemplate.query(sql, bookingRowMapper);
     }
 
 

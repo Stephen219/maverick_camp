@@ -66,7 +66,7 @@ public class EventRepoImol  implements eventsRepoInter{
     @Override
 
     public Event[] getAllEvents() {
-        String sql = "SELECT * FROM events";
+        String sql = "SELECT * FROM events WHERE is_showing = true";
         return jdbcTemplate.query(sql, rowMapper).toArray(new Event[0]);
     }
 

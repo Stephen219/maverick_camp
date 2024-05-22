@@ -45,7 +45,7 @@ public class BookingController {
     }
 
     @PostMapping("/book")
-    public ModelAndView handleBooking(RedirectAttributes redirectAttributes, @Valid booking booking, BindingResult bindingResult) {
+    public ModelAndView handleBooking(@Valid booking booking, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView("booking");

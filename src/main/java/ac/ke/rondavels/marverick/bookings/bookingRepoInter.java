@@ -14,6 +14,8 @@ public interface bookingRepoInter {
 
     public void saveMessage(String email, String message);
 
+    public List<booking> findUpcomingBookings();
+
 
 
 }
