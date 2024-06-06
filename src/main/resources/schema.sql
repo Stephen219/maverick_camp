@@ -84,8 +84,11 @@ CREATE TABLE IF NOT EXISTS Event_Participants(
     event_id INT NOT NULL,
     attendee VARCHAR(255) NOT NULL,
     mpesa_code VARCHAR(255) NOT NULL,
+    email VARCHAR(255) default NULL,
     phone_number VARCHAR(255) NOT NULL,
     message_name VARCHAR(255) NOT NULL,
+    date_created DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    is_confirmed BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
     PRIMARY KEY (id));
 ALTER TABLE events ADD COLUMN is_showing BOOLEAN DEFAULT TRUE;

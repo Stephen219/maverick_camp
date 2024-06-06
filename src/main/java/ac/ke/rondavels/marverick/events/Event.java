@@ -27,6 +27,7 @@ public class Event {
     private LocalDateTime endDateTime;
     private String image;
     private LocalDateTime createdAt = LocalDateTime.now();
+    private int responders = 0;
 
 
 }

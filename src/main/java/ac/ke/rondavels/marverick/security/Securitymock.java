@@ -46,6 +46,7 @@ public class Securitymock {
             "/about_us", "/message"
             ,"/contact", "/book",
             "/404/","/logout/",
+            "/static/**",
     };
 
     @Autowired

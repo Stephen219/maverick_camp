@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+</head>
+<body>
+
+<div th:replace="fragment :: header"></div>
+
+<div class="container mx-auto py-8">
+
+    <h1 class="text-3xl font-semibold mb-4" th:text="${event.title}">
+        ></h1>
+
+
+    <div class="flex flex-col space-y-7">
+        <h2 class="text-xl font-semibold mb-2 text-center">Confirmed Participants</h2>
+        <table class="w-full table-auto mb-4">
+            <thead>
+            <tr>
+                <th class="px-4 py-2">No</th>
+                <th class="px-4 py-2">Attendee</th>
+                <th class="px-4 py-2">Message Name</th>
+                <th class="px-4 py-2">Mpesa Code</th>
+                <th class="px-4 py-2">Phone Number</th>
+
+                <th class="px-4 py-2">Payment Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="participant ,iterStat: ${confirmedParticipants}">
+                <td class="border px-4 py-2" th:text="${iterStat.count}"></td>
+                <td class="border px-4 py-2" th:text="${participant.attendee}"></td>
+                <td class="border px-4 py-2" th:text="${participant.message_name}"></td>
+                <td class="border px-4 py-2" th:text="${participant.mpesa_code}"></td>
+                <td class="border px-4 py-2" th:text="${participant.phone_number}"></td>
+                <td class="border px-4 py-2" th:text="${#temporals.format(participant.date_created, 'MMMM dd, HH:mm')}">
+
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+
+        <h2 class="text-xl font-semibold mb-2 text-center">Unconfirmed Participants</h2>
+        <table class="w-full table-auto mb-4">
+            <thead>
+            <tr>
+                <th class="px-4 py-2">No</th>
+                <th class="px-4 py-2">Attendee</th>
+                <th class="px-4 py-2">Message Name</th>
+                <th class="px-4 py-2">Mpesa Code</th>
+                <th class="px-4 py-2">Phone Number</th>
+
+                <th class="px-4 py-2">Payment Date</th>
+                <th class="px-4 py-2">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="participant,iterStat : ${participants}">
+                <td class="border px-4 py-2" th:text="${iterStat.count}"></td>
+                <td class="border px-4 py-2" th:text="${participant.attendee}"></td>
+                <td class="border px-4 py-2" th:text="${participant.message_name}"></td>
+                <td class="border px-4 py-2" th:text="${participant.mpesa_code}"></td>
+                <td class="border px-4 py-2" th:text="${participant.phone_number}"></td>
+                <td class="border px-4 py-2" th:text="${#temporals.format(participant.date_created, 'MMMM dd, HH:mm')}">
+
+                </td>
+                <td class="border px-4 py-2">
+                    <a th:href="@{'/event/' + ${event.id} + '/interested/' + ${participant.id} + '/confirm'}"
+                       class="bg-green-500 text-white px-4 py-2 rounded mr-2">Confirm</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+</body>
+</html>

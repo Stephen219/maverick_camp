@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 
@@ -35,8 +36,16 @@ public class EventServiceImpl implements EventServiceInter {
     public List<String> getAllImages(){
         return eventRepoInter.getAllImages();
     }
-    public void addParticipant(Long eventId, String attendee, String code, String PhoneNumber, String message_name){
-        eventRepoInter.addParticipant(eventId, attendee, code, PhoneNumber, message_name);
+    public void addParticipant(Long eventId, String attendee, String code, String PhoneNumber, String message_name,String email){
+        eventRepoInter.addParticipant(eventId, attendee, code, PhoneNumber, message_name,email);
+    }
+
+    public List<Map<String, Object>> getParticipantsForEvent(int eventId) {
+        return eventRepoInter.getParticipantsForEvent(eventId);
+    }
+
+    public void confirmParticipant(Long id){
+        eventRepoInter.confirmParticipant(id);
     }
 
 

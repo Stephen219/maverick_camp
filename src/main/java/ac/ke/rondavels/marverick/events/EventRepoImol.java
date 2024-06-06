@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 
@@ -66,7 +67,7 @@ public class EventRepoImol  implements eventsRepoInter{
     @Override
 
     public Event[] getAllEvents() {
-        String sql = "SELECT * FROM events WHERE is_showing = true";
+        String sql = "SELECT * FROM events WHERE is_showing = true and start_date_time > now() ORDER BY start_date_time DESC";
         return jdbcTemplate.query(sql, rowMapper).toArray(new Event[0]);
     }
 
@@ -87,9 +88,22 @@ public class EventRepoImol  implements eventsRepoInter{
     }
 
 
-    public void addParticipant(Long eventId, String attendee, String code, String PhoneNumber, String message_name){
-        String sql = "INSERT INTO Event_Participants(event_id, attendee, mpesa_code, phone_number, message_name) VALUES(?,?,?,?,?)";
-        jdbcTemplate.update(sql, eventId, attendee, code, PhoneNumber, message_name);
+    public void addParticipant(Long eventId, String attendee, String code, String PhoneNumber, String message_name,String email){
+        String sql = "INSERT INTO Event_Participants(event_id, attendee, mpesa_code, phone_number, message_name, email) VALUES(?,?,?,?,?,?)";
+        jdbcTemplate.update(sql, eventId, attendee, code, PhoneNumber, message_name, email);
     }
+
+    public List<Map<String, Object>> getParticipantsForEvent(int eventId)  {
+        String sql = "SELECT * FROM Event_Participants WHERE event_id = ?";
+        return jdbcTemplate.queryForList(sql, eventId);
+    }
+    public void confirmParticipant(Long id){
+        String sql = "UPDATE Event_Participants SET is_confirmed = true WHERE id = ?";
+        jdbcTemplate.update(sql, id);
+    }
+
+
+
+
 
 }

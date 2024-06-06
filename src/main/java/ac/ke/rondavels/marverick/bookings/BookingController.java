@@ -76,21 +76,9 @@ public class BookingController {
             booking.setPhone(booking.getPhone().replaceFirst("^0+", ""));
         }
         booking.setPhone("+" + booking.getCountryCode() + booking.getPhone());
-        System.out.println(booking);
-        System.out.println(booking.getMessage());
         booking.setStatus("Pending");
         booking.setPrice("1000");
-
-
-
-
-
-
-
         bookingServiceInter.saveBooking(booking);
-
-
-
         return new ModelAndView("redirect:/");
     }
 
@@ -99,7 +87,6 @@ public class BookingController {
 
     @Value("${STRIPE_PUBLIC_KEY}")
     private String stripePublicKey;
-
     @RequestMapping("/checkout")
     public String checkout(Model model) {
         model.addAttribute("amount", 50 * 100); // in cents
@@ -135,12 +122,7 @@ public class BookingController {
 
     @PostMapping("/message")
     public ModelAndView getEnquiryAtTheFooter(@RequestParam("enquiry_email") String email, @RequestParam("message") String message, RedirectAttributes redirectAttributes){
-        System.out.println("Email is " + email);
-        System.out.println("Message is " + message);
-        // TODO: Send email to the admin
-
-        emailService.sendSimpleMessage("stephenkariuki838@gmail.com,", "Enquiry", message);
-        //emailService.sendSimpleMessage("stephenkariuki838@gmail.com,", "Enquiry", message);
+        emailService.sendSimpleMessage("stephenkariuki838@gmail.com,", "Enquiry", message + " from " + email);
         bookingServiceInter.saveMessage(email, message);
         redirectAttributes.addFlashAttribute("message", "Your message has been sent successfully");
         return new ModelAndView("redirect:/");

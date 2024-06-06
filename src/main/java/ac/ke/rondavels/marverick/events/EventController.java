@@ -49,7 +49,6 @@ public class EventController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy h:mma");
         String formattedDate = blogDate.format(formatter);
 
-
         return new ModelAndView("events/eventDetails")
                 .addObject("cost", intCost)
                 . addObject("createdDate", event.getCreatedAt().format(formatter))
@@ -69,11 +68,6 @@ public class EventController {
         } else {
             event = new Event();
         }
-        System.out.println(event);
-        System.out.println(event);
-        System.out.println(event);
-        System.out.println(event);
-        System.out.println("System.out.println(event);bdjksjkbesjkeaks'pljkflds'kldeksfllhdlhudjkwoeikfdnfhu");
 
         ModelAndView modelAndView = new ModelAndView("events/addEvents");
         modelAndView.addObject("event", event);
@@ -105,10 +99,10 @@ public class EventController {
 
 
     @PostMapping("/events/{id}/interested")
-    public String interested(@PathVariable Long id, Model model, @RequestParam String attendee, @RequestParam String phone, @RequestParam String code, @RequestParam String message_name) {
+    public String interested(@PathVariable Long id, Model model, @RequestParam String attendee, @RequestParam String phone, @RequestParam String code, @RequestParam String message_name , @RequestParam String email){
         Event event = eventServiceInter.getEvent(id);
         model.addAttribute("event", event).addAttribute("date", event.getStartDateTime().format(DateTimeFormatter.ofPattern("MMMM dd, yyyy h:mma")));
-        eventServiceInter.addParticipant(id, attendee, code, phone, message_name);
+        eventServiceInter.addParticipant(id, attendee, code, phone, message_name,email);
         return "redirect:/events";
     }
 
@@ -121,6 +115,25 @@ public class EventController {
             redirectAttributes.addFlashAttribute("error", "Unable to delete the event");
         }
         return new ModelAndView("redirect:/events");
+    }
+
+
+    @GetMapping("event/{id}/interested")
+    public ModelAndView specificEventParticipants(@PathVariable Long id){
+        List<Map<String, Object>> allParticipants = eventServiceInter.getParticipantsForEvent(Math.toIntExact(id));
+        List<Map<String, Object>> confirmedParticipants = allParticipants.stream().filter(participant -> (boolean) participant.get("is_confirmed")).toList();
+        List<Map<String, Object>> unconfirmedParticipants = allParticipants.stream().filter(participant -> !(boolean) participant.get("is_confirmed")).toList();
+        Event event = eventServiceInter.getEvent(id);
+        return new ModelAndView("events/participants.html")
+                .addObject("participants", unconfirmedParticipants).
+                addObject("event", event)
+                .addObject("confirmedParticipants", confirmedParticipants);
+    }
+
+    @GetMapping ("event/{id}/interested/{participantId}/confirm")
+    public ModelAndView confirmParticipant(@PathVariable Long id, @PathVariable Long participantId){
+        eventServiceInter.confirmParticipant(participantId);
+        return new ModelAndView("redirect:/event/"+id+"/interested");
     }
 
 
