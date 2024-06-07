@@ -26,6 +26,9 @@
             </button>
         </div>
         <ul class="hidden lg:flex lg:mx-auto lg:w-auto lg:space-x-6 pl-5 relative font-bold text-black hover:text-gray-500">
+            <li th:if="${#authorization.expression('isAuthenticated()')}">
+                <a class="text-md text-black hover:text-gray-500" href="/_/">Admin</a>
+            </li>
             <li><a class="text-md font=-bold text-black hover:text-gray-500" href="/">Home</a></li>
             <li><a class="text-md text-black font-bold" href="/about_us">About Us</a></li>
             <li><a class="text-md text-black hover:text-gray-500" href="/events">Events</a></li>
@@ -39,6 +42,9 @@
             </li>
             <li th:if="${#authorization.expression('isAuthenticated()')}">
                 <a class="text-md text-black hover:text-gray-500" href="/add_blog">add blog</a>
+            </li>
+            <li th:if="${#authorization.expression('isAuthenticated()')}">
+                <a class="text-md text-black hover:text-gray-500" href="/logout">Logout</a>
             </li>
 
 
@@ -74,7 +80,7 @@
                     </svg>
                 </button>
             </div>
-            <div>
+            <div class="bg-amber-50">
                 <ul>
                     <li class="mb-1">
                         <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded"
@@ -104,11 +110,14 @@
                         <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded"
                            href="/blog">Blog</a>
                     </li>
+                    <li th:if="${#authorization.expression('isAuthenticated()')}">
+                        <a class="text-md text-black hover:text-gray-500" href="/logout">Logout</a>
+                    </li>
                 </ul>
             </div>
             <div class="mt-auto">
                 <div class="pt-6">
-                    <a class=" uppercase block px-4 py-3 mb-3 text-xs text-center font-semibold leading-none bg-gray-50 hover:bg-gray-100 rounded-xl"
+                    <a class=" uppercase block px-4 py-3 mb-3 text-xs text-center font-semibold leading-none  rounded-xl bg-blue-600 "
                        href="/book">Book now </a>
 
                 </div>

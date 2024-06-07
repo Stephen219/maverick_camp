@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <style>
+        .carousel {
+            overflow: hidden;
+            width: 100%;
+            position: relative;
+        }
+
+        .carousel-inner {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .carousel-item {
+            min-width: 100%;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 1rem;
+            cursor: pointer;
+        }
+
+        .carousel-control-prev {
+            left: 10px;
+        }
+
+        .carousel-control-next {
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="fragment :: header"></div>
+
+<section class="bg-gray-100 mt-5 mb-5">
+    <div class="container mx-auto py-16 px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 items-center gap-8">
+            <div class="max-w-lg">
+                <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl mt-5">About Us</h2>
+                <p class="mt-4 text-gray-600 text-lg">
+                    Maverick Camp, Rondavels and Homestay offers accommodations in Nyandarua, 17 miles from Mount Kipipiri Forest Reserve. This guest house offers a garden, a terrace, as well as a bar. There's a restaurant serving African cuisine, and free private parking is available.
+
+                    Guests can enjoy a meal on an outdoor dining area while overlooking the mountain views. The guest house offers bed linen, towels, and daily room service.
+
+                    À la carte and continental breakfast options with local specialities, fresh pastries, and fruit are available every morning at the guest house. There is a snack bar, and packed lunches are also available.
+
+                    Sightseeing tours are available near the property. Guests can also warm up near the outdoor fireplace after a day of cycling.
+
+                    The nearest airport is Nanyuki, 66 miles from Maverick Camp, Rondavels and Homestay, and the property offers a paid airport shuttle service.
+                </p>
+                <div class="mt-8">
+                    <a href="#" class="text-blue-500 hover:text-blue-600 font-medium">Learn more about us <span
+                            class="ml-2">&#8594;</span></a>
+                </div>
+            </div>
+            <div class="mt-12 md:mt-0">
+                <div class="carousel w-full max-w-4xl mx-auto relative overflow-hidden">
+                    <div class="carousel-inner flex transition-transform duration-500">
+                        <img class="mSlides rounded-lg shadow-xl" src="/images/hiking1.png" alt="">
+                        <img class="mSlides rounded-lg shadow-xl" src="/images/hiking2.png" alt="">
+                        <img class="mSlides rounded-lg shadow-xl" src="/images/hiking3.png" alt="">
+                        <img class="mSlides rounded-lg shadow-xl" src="/images/hiking4.png" alt="">
+                        <img class="mSlides rounded-lg shadow-xl" src="/images/food1.png" alt="">
+
+                    </div>
+                    <button class="carousel-control-prev absolute top-1/2 transform -translate-y-1/2 left-4 bg-gray-900 text-white p-2 rounded-full"
+                            onclick="prevSlide()">&#10094;
+                    </button>
+                    <button class="carousel-control-next absolute top-1/2 transform -translate-y-1/2 right-4 bg-gray-900 text-white p-2 rounded-full"
+                            onclick="nextSlide()">&#10095;
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div th:replace="fragment :: footer"></div>
+
+<script>
+    let currentIndex = 0;
+    const slides = document.querySelectorAll('.mSlides');
+    const totalSlides = slides.length;
+
+    function showSlide(index) {
+        if (index >= totalSlides) {
+            currentIndex = 0;
+        } else if (index < 0) {
+            currentIndex = totalSlides - 1;
+        } else {
+            currentIndex = index;
+        }
+        const carouselInner = document.querySelector('.carousel-inner');
+        carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
+    }
+
+    function nextSlide() {
+        showSlide(currentIndex + 1);
+    }
+
+    function prevSlide() {
+        showSlide(currentIndex - 1);
+    }
+
+    // Auto slide functionality
+    let autoSlide = setInterval(() => {
+        nextSlide();
+    }, 3000); // Change slide every 3 seconds
+
+    // Optional: Pause on hover
+    const carousel = document.querySelector('.carousel');
+    carousel.addEventListener('mouseover', () => {
+        clearInterval(autoSlide);
+    });
+
+    carousel.addEventListener('mouseout', () => {
+        autoSlide = setInterval(() => {
+            nextSlide();
+        }, 3000);
+    });
+</script>
+</body>
+</html>

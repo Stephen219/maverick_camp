@@ -328,6 +328,9 @@
         </button>
     </div>
     <ul class="hidden lg:flex lg:mx-auto lg:w-auto lg:space-x-6 pl-5 relative font-bold text-black hover:text-blue-600">
+        <li th:if="${#authorization.expression('isAuthenticated()')}">
+            <a class="text-md text-black hover:text-gray-500" href="/_/">Admin</a>
+        </li>
         <li><a class="text-md " href="/">Home</a></li>
         <li><a class="text-md text-black" href="/about_us">About Us</a></li>
         <li><a class="text-md text-black hover:text-gray-500" href="/events">Events</a></li>
@@ -335,6 +338,9 @@
         <li><a class="text-md text-black hover:text-gray-500" href="/rooms">Accommodation</a></li>
         <li><a class="text-md text-black hover:text-gray-500" href="/gallery">Gallery</a></li>
         <li><a class="text-md text-black hover:text-gray-500" href="/all_blogs">Blog</a></li>
+        <li th:if="${#authorization.expression('isAuthenticated()')}">
+            <a class="text-md text-black hover:text-gray-500" href="/logout">Logout</a>
+        </li>
     </ul>
     <a class="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold  rounded-xl transition duration-200" href="/book">Book Now</a>
 
@@ -354,6 +360,9 @@
         </div>
         <div>
             <ul>
+                <li th:if="${#authorization.expression('isAuthenticated()')}">
+                    <a class="text-md text-black hover:text-gray-500" href="/_/">Admin</a>
+                </li>
                 <li class="mb-1">
                     <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded" href="/">Home</a>
                 </li>
@@ -374,6 +383,10 @@
                 </li>
                 <li class="mb-1">
                     <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded" href="/blog">Blog</a>
+                </li>
+
+                <li th:if="${#authorization.expression('isAuthenticated()')}">
+                    <a class="text-md text-black hover:text-gray-500" href="/logout">Logout</a>
                 </li>
             </ul>
         </div>
@@ -664,7 +677,7 @@
                     <img class="mSlides rounded-lg shadow-xl" src="/images/hiking2.png" alt="">
                     <img class="mSlides rounded-lg shadow-xl" src="/images/hiking3.png" alt="">
                     <img class="mSlides rounded-lg shadow-xl" src="/images/hiking4.png" alt="">
-                    <img class="mSlides rounded-lg shadow-xl" src="/images/hiking5.png" alt="">
+                    <img class="mSlides rounded-lg shadow-xl" src="/images/img_3.png" alt="">
                 </div>
             </div>
             <div class="flex flex-col justify-center mt-5 mb-8 md:mt-0 sm:w-1/2 md:w-7/12 sm:pr-16">

@@ -33,7 +33,7 @@ public class MainController {
 
     @GetMapping("/about_us")
     public String about_us(){
-        return "test";
+        return "about_us";
     }
 
 
@@ -41,6 +41,11 @@ public class MainController {
     public ModelAndView gallery(){
         System.out.println(eventServiceInter.getAllImages());
         return new ModelAndView("gallery").addObject("images", eventServiceInter.getAllImages());
+    }
+
+    @GetMapping("/contact")
+    public String contact_us(){
+        return "contra";
     }
 
 
