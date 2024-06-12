@@ -54,17 +54,13 @@ public class BookingController {
         }
 
         if (booking.getCheckin() != null && booking.getCheckout() != null) {
-            System.out.println("we are before this line");
             if (booking.getCheckin().isAfter(booking.getCheckout())) {
-                System.out.println("Checkin date is after checkout date");
-
                 bindingResult.rejectValue("checkin", "date.invalid", "Check-in date cannot be after check-out date");
                 ModelAndView modelAndView = new ModelAndView("booking");
                 modelAndView.addObject("booking", booking);
 
                 return modelAndView;
             } else if (booking.getCheckin().isEqual(booking.getCheckout())) {
-                System.out.println("Checkin date is equal to checkout date ehe we are here  now");
                 bindingResult.rejectValue("checkin", "date.invalid", "Check-in date cannot be the same as check-out date");
                 ModelAndView modelAndView = new ModelAndView("booking");
                 modelAndView.addObject("booking", booking);
@@ -122,7 +118,7 @@ public class BookingController {
 
     @PostMapping("/message")
     public ModelAndView getEnquiryAtTheFooter(@RequestParam("enquiry_email") String email, @RequestParam("message") String message, RedirectAttributes redirectAttributes){
-        emailService.sendSimpleMessage("stephenkariuki838@gmail.com,", "Enquiry", message + " from " + email);
+        emailService.sendSimpleMessage("abushvin@gmail.com,", "Enquiry", message + " from " + email);
         bookingServiceInter.saveMessage(email, message);
         redirectAttributes.addFlashAttribute("message", "Your message has been sent successfully");
         return new ModelAndView("redirect:/");

@@ -49,7 +49,7 @@ public class blogController {
             blogServiceInter.saveBlog(blog);
 
         }
-        return new ModelAndView("redirect:/blog/" + blog.getId());
+        return new ModelAndView("redirect:/all_blogs");
 
     }
 

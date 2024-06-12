@@ -1,5 +1,6 @@
 package ac.ke.rondavels.marverick.events;
 
+import ac.ke.rondavels.marverick.email.EmailService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -25,6 +26,8 @@ import java.util.stream.Collectors;
 public class EventController {
     @Autowired
     EventServiceInter eventServiceInter;
+    @Autowired
+    EmailService emailService;
 
     @GetMapping("/events")
     public String getEvents(Model model) {
@@ -133,6 +136,17 @@ public class EventController {
     @GetMapping ("event/{id}/interested/{participantId}/confirm")
     public ModelAndView confirmParticipant(@PathVariable Long id, @PathVariable Long participantId){
         eventServiceInter.confirmParticipant(participantId);
+        List<Map<String, Object>> allParticipants = eventServiceInter.getParticipantsForEvent(Math.toIntExact(id));
+        List<Map<String, Object>> confirmedParticipants = allParticipants.stream().filter(participant -> (boolean) participant.get("is_confirmed")).toList();
+        Map<String, Object> participant = allParticipants.stream().filter(part -> (int) part.get("id") == Math.toIntExact(participantId)).findFirst().get();
+
+        System.out.println(participantId);
+        String email = (String) participant.get("email");
+        String name = (String) participant.get("attendee");
+        String message = "Hello "+name+",\n\nYou have been confirmed to attend the event. We are looking forward to seeing you there.\n\nRegards,\nRondavels";
+        emailService.sendSimpleMessage(email, "Confirmation for the event", message);
+
+        System.out.println("Participant confirmed");
         return new ModelAndView("redirect:/event/"+id+"/interested");
     }
 

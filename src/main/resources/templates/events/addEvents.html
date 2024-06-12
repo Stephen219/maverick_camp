@@ -27,7 +27,7 @@
                  class="text-red-500"></div>
         </div>
         <div class="mb-4">
-            <label for="name" class="block text-sm font-medium text-gray-600">Title:</label>
+            <label for="name" class="block text-sm font-medium text-gray-600">Banner Image:</label>
             <label for="image"></label><input type="text" id="image" name="name" th:field="*{image}" class="mt-1 p-2 w-full border rounded" required/>
             <div th:if="${#fields.hasErrors('image')}" th:errors="*{image}"
                  class="text-red-500"></div>
@@ -51,7 +51,7 @@
 
 
         <div class="mb-4">
-            <label for="requirements" class="block text-sm font-medium text-gray-600">Requirements (separated by commas):</label>
+            <label for="requirements" class="block text-sm font-medium text-gray-600">Description:(should be brief)</label>
             <input type="text" id="requirements" name="requirements" th:field="*{description}" class="mt-1 p-2 w-full border rounded" required/>
 
             <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"

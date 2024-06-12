@@ -41,12 +41,14 @@ public class Securitymock {
             "/login",
             "events",
             "events/**",
+            "/data",
             "rooms/**",
             "/gallery",
             "/about_us", "/message"
             ,"/contact", "/book",
             "/404/","/logout/",
             "/static/**",
+
     };
 
     @Autowired
@@ -71,6 +73,7 @@ public class Securitymock {
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers(ENDPOINTS_WHITELIST).permitAll()
                         .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/_/**")).hasRole("ADMIN")
+
 
                         .anyRequest().hasRole("ADMIN")
                 )
